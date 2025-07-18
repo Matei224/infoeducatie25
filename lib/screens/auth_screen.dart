@@ -1,19 +1,18 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/widgets/formSignUp/form_email.dart';
-import 'package:studee_app/widgets/form_field.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:studee_app/widgets/login.dart';
 import 'package:studee_app/widgets/signup.dart';
-import 'package:crypto/crypto.dart';
-import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 
 final _firebase = FirebaseAuth.instance;
 
 class AuthScreen extends StatefulWidget {
-  AuthScreen({super.key, this.firstSignUp});
-  bool? firstSignUp;
+  AuthScreen({super.key, required this.onTrue});
+  void Function(bool x) onTrue;
 
   @override
   State<StatefulWidget> createState() {
@@ -46,6 +45,37 @@ class _AuthScreen extends State<AuthScreen> {
     }
   }
 
+
+Future<void> _signInWithGoogle() async {
+  final googleUser = GoogleSignIn()
+    try {
+      if (googleUser == null) {
+        return; // User canceled the sign-in
+      }
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      if (userCredential.additionalUserInfo?.isNewUser ?? false) {
+        final user = userCredential.user;
+        if (user != null) {
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+            'email': user.email,
+            'username': user.displayName ?? 'User_${user.uid.substring(0, 5)}',
+          });
+          firstSignUp(); // Notify parent widget, consistent with signup
+        }
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to sign in with Google.')),
+      );
+    }
+  }
+  
   final _form = GlobalKey<FormState>();
 
   @override
@@ -65,8 +95,8 @@ class _AuthScreen extends State<AuthScreen> {
 
   Future<bool?> isEmailRegistered(String email) async {
     try {
-      final FirebaseAuth _auth = FirebaseAuth.instance;
-      List<String> methods = await _auth.fetchSignInMethodsForEmail(email);
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      List<String> methods = await auth.fetchSignInMethodsForEmail(email);
       return methods.isNotEmpty;
     } catch (e) {
       print('Error checking email: $e');
@@ -75,13 +105,13 @@ class _AuthScreen extends State<AuthScreen> {
   }
 
   void firstSignUp() {
-    widget.firstSignUp = true;
+    widget.onTrue(true);
   }
 
   void submit() async {
     final isValid = _form.currentState!.validate();
 
-    if (!isValid) {}
+    if (!isValid) return;
     _form.currentState!.save();
     print('Email $enteredEmail');
     print('Password $enteredPassword');
@@ -99,22 +129,32 @@ class _AuthScreen extends State<AuthScreen> {
           email: enteredEmail,
           password: encryptedPassword,
         );
-        setState(() {
-          firstSignUp();
-        });
+        firstSignUp();
+
+        try {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userCredentials.user!.uid)
+              .set({'email': enteredEmail, 'username': enteredUsername});
+          print('ok');
+        } catch (e) {
+          print(e);
+        }
+        await userCredentials.user!.sendEmailVerification();
       } on FirebaseAuthException catch (err) {
         if (err.code == 'email-already-in-use') {
           print('nu mere');
         }
         ScaffoldMessenger.of(context).clearSnackBars();
-        if (await isEmailRegistered(enteredEmail) == false)
+        if (await isEmailRegistered(enteredEmail) == false) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('E-mail already exists.')));
-        else
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(err.message ?? 'Authentification failed.')),
           );
+        }
         setState(() {
           isAuth = false;
         });
@@ -146,16 +186,20 @@ class _AuthScreen extends State<AuthScreen> {
 
   String? getterEmail(String x) {
     enteredEmail = x;
+    return null;
   }
 
   String? getterPassword(String x) {
     enteredPassword = x;
+    return null;
   }
 
   String? getterUsername(String x) {
     enteredUsername = x;
+    return null;
   }
 
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double widthScreen = size.width;
@@ -166,7 +210,10 @@ class _AuthScreen extends State<AuthScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bkg.png"),
+            image:
+                isLogin
+                    ? AssetImage("assets/images/bkg.png")
+                    : AssetImage("assets/images/signup.png"),
             fit: BoxFit.cover,
           ),
         ),

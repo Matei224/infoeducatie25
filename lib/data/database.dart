@@ -1,0 +1,154 @@
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import 'package:studee_app/data/universityData.dart';
+import 'package:studee_app/widgets/filteringrow.dart';
+import '../model/university.dart';
+
+class DatabaseHelper {
+  static final DatabaseHelper instance = DatabaseHelper._init();
+  DatabaseHelper._init();
+  Database? _database;
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await _initDatabase();
+    return _database!;
+  }
+
+  Future<Database> _initDatabase() async {
+    String path = join(await getDatabasesPath(), 'universities.db');
+    return await openDatabase(path, version: 1, onCreate: _onCreate);
+  }
+
+  Future _onCreate(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE universities (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        city TEXT NOT NULL,
+        country TEXT NOT NULL,
+        urlImage TEXT NOT NULL,
+        urlLogo TEXT NOT NULL,
+        degree TEXT NOT NULL,
+        programme TEXT NOT NULL,
+        fullName TEXT NOT NULL,
+        duration TEXT NOT NULL,
+        money TEXT NOT NULL,
+        language TEXT NOT NULL,
+        data TEXT NOT NULL
+     
+      )
+    ''');
+
+    //  fullName TEXT NOT NULL
+    //   duration TEXT NOT NULL
+    //   money TEXT NOT NULL
+    //   language TEXT NOT NULL
+    //   data TEXT NOT NULL
+    for (var university in uni) {
+      await db.insert('universities', university.toMap());
+    }
+  }
+
+  Future<List<University>> getUniversities() async {
+    Database db = await database;
+    List<Map<String, dynamic>> maps = await db.query('universities');
+    return List.generate(maps.length, (i) {
+      return University.fromMap(maps[i]);
+    });
+  }
+
+  Future<List<University>> getFilteredUniversities(
+    String searchQuery,
+    Map<Filter, String> filters,
+  ) async {
+    Database db = await database;
+    List<String> whereClauses = [];
+    List<String> whereArgs = [];
+
+    if (searchQuery.isNotEmpty) {
+      whereClauses.add("LOWER(name) LIKE '%' || LOWER(?) || '%'");
+      whereArgs.add(searchQuery);
+    }
+
+    if (filters[Filter.programme]?.isNotEmpty ?? false) {
+      whereClauses.add(
+        "(programme IS NOT NULL AND LOWER(programme) = LOWER(?))",
+      );
+      whereArgs.add(filters[Filter.programme]!);
+    }
+
+    if (filters[Filter.location]?.isNotEmpty ?? false) {
+      whereClauses.add("(country IS NOT NULL AND LOWER(country) = LOWER(?))");
+      whereArgs.add(filters[Filter.location]!);
+    }
+
+    if (filters[Filter.degree]?.isNotEmpty ?? false) {
+      whereClauses.add("(degree IS NOT NULL AND LOWER(degree) = LOWER(?))");
+      whereArgs.add(filters[Filter.degree]!);
+    }
+
+    String whereString =
+        whereClauses.isNotEmpty ? whereClauses.join(' AND ') : '';
+
+    List<Map<String, dynamic>> maps;
+    if (whereClauses.isNotEmpty) {
+      maps = await db.query(
+        'universities',
+        where: whereString,
+        whereArgs: whereArgs,
+      );
+    } else {
+      maps = await db.query('universities');
+    }
+
+    return List.generate(maps.length, (i) {
+      return University.fromMap(maps[i]);
+    });
+  }
+
+  Future<void> insertInitialData(List<University> universities) async {
+    Database db = await database;
+    Batch batch = db.batch();
+    for (var university in universities) {
+      batch.insert('universities', university.toMap());
+    }
+    await batch.commit(noResult: true);
+  }
+
+  Future<List<University>> searchUniversities(
+    String query,
+    Map<Filter, String> filters,
+  ) async {
+    final db = await database;
+    String whereClause =
+        'name LIKE ? COLLATE NOCASE'; // Case-insensitive name search
+    List<String> whereArgs = ['%$query%']; // Wildcards for partial matching
+
+    // Add programme filter if set
+    if (filters[Filter.programme] != '') {
+      whereClause += ' AND programme = ? COLLATE NOCASE';
+      whereArgs.add(filters[Filter.programme]!);
+    }
+
+    // Add degree filter if set
+    if (filters[Filter.degree] != '') {
+      whereClause += ' AND degree = ? COLLATE NOCASE';
+      whereArgs.add(filters[Filter.degree]!);
+    }
+
+    // Add location (country) filter if set
+    if (filters[Filter.location] != '') {
+      whereClause += ' AND country = ? COLLATE NOCASE';
+      whereArgs.add(filters[Filter.location]!);
+    }
+
+    final maps = await db.query(
+      'universities', // Table name
+      where: whereClause,
+      whereArgs: whereArgs,
+    );
+
+    return maps.map((map) => University.fromMap(map)).toList();
+  }
+}

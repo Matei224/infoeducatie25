@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studee_app/model/budget.dart';
 import 'package:studee_app/widgets/form_budget_toggle.dart';
-import 'package:studee_app/widgets/form_own_budget.dart';
 import 'package:validators/validators.dart';
 
 class FormBudget extends StatefulWidget {
   FormBudget({super.key, required this.form, required this.setBudget});
-  var budget = null;
+  var budget;
   final form;
   void Function(dynamic x) setBudget;
 
@@ -16,7 +15,7 @@ class FormBudget extends StatefulWidget {
 }
 
 class _FormBudgetState extends State<FormBudget> {
-  TextEditingController _text = TextEditingController();
+  final TextEditingController _text = TextEditingController();
   String labelText = '';
   List<bool> selections = [true, false, false];
   List<Budget> budget = [
@@ -40,17 +39,6 @@ class _FormBudgetState extends State<FormBudget> {
             borderColor: Color.fromARGB(255, 115, 0, 255),
             fillColor: Color.fromARGB(255, 115, 0, 255),
             direction: Axis.vertical,
-            children: [
-              FormBudgetToggle(labelText: '0', value: ValueKey(Budget.zero)),
-              FormBudgetToggle(
-                labelText: '<1000',
-                value: ValueKey(Budget.lessThan1k),
-              ),
-              FormBudgetToggle(
-                labelText: '>5000',
-                value: ValueKey(Budget.medium5k),
-              ),
-            ],
             isSelected: selections,
             onPressed: (int index) {
               setState(() {
@@ -67,6 +55,17 @@ class _FormBudgetState extends State<FormBudget> {
                 }
               });
             },
+            children: [
+              FormBudgetToggle(labelText: '0', value: ValueKey(Budget.zero)),
+              FormBudgetToggle(
+                labelText: '<1000',
+                value: ValueKey(Budget.lessThan1k),
+              ),
+              FormBudgetToggle(
+                labelText: '>5000',
+                value: ValueKey(Budget.medium5k),
+              ),
+            ],
           ),
           Text("Or type your own"),
           Container(

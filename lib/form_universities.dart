@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:studee_app/data/universityData.dart';
 
 class FormUniversities extends StatefulWidget {
   FormUniversities({
@@ -23,7 +22,7 @@ class FormUniversities extends StatefulWidget {
 
 class _FormUniversitiesState extends State<FormUniversities> {
   bool isSelect = false;
-
+  List<String>? listOfUnivs = [];
   void showSnackBar(String message) {
     ScaffoldMessenger.of(
       context,
@@ -110,17 +109,5 @@ class _FormUniversitiesState extends State<FormUniversities> {
   }
 }
 
-final List<SelectedListItem<String>> _listOfSubjects = [
-  SelectedListItem<String>(data: 'kTokyo'),
-  SelectedListItem<String>(data: 'kNewYork'),
-  SelectedListItem<String>(data: 'kLondon'),
-  SelectedListItem<String>(data: 'kParis'),
-  SelectedListItem<String>(data: 'kMadrid'),
-  SelectedListItem<String>(data: 'kDubai'),
-  SelectedListItem<String>(data: 'kRome'),
-  SelectedListItem<String>(data: 'kBarcelona'),
-  SelectedListItem<String>(data: 'kCologne'),
-  SelectedListItem<String>(data: 'kMonteCarlo'),
-  SelectedListItem<String>(data: 'kPuebla'),
-  SelectedListItem<String>(data: 'kFlorence'),
-];
+final List<SelectedListItem<String>> _listOfSubjects =
+    uni.map((u) => SelectedListItem<String>(data: u.name)).toList();

@@ -22,34 +22,34 @@ class ProfileModel {
   Mood? mood;
 
   void setFirstName(String x) {
-    this.firstName = x;
+    firstName = x;
   }
 
   void setLastName(String x) {
-    this.lastName = x;
+    lastName = x;
   }
 
   void setGender(Gender gender) {
-    this.myGender = gender;
+    myGender = gender;
   }
 
   void setInterest(String? x) {
-    this.mySubjectOfInterest = x;
+    mySubjectOfInterest = x;
   }
 
   void setUnivs(List<String>? x) {
-    this.chosenUniversities = x;
+    chosenUniversities = x;
   }
 
   void setGPA(double? x) {
-    this.gpa = x;
+    gpa = x;
   }
 
   void setBudget(dynamic x) {
-    this.budget = x;
+    budget = x;
   }
 
   void setMood(Mood? x) {
-    this.mood = x;
+    mood = x;
   }
 }

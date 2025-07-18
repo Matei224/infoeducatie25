@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/model/budget.dart';
 import 'package:studee_app/model/mood.dart';
-import 'package:studee_app/widgets/form_budget_toggle.dart';
 import 'package:studee_app/widgets/form_mood_toggle.dart';
-import 'package:studee_app/widgets/form_own_budget.dart';
 
 class FormMood extends StatefulWidget {
   FormMood({super.key, required this.setMood});
@@ -16,7 +12,7 @@ class FormMood extends StatefulWidget {
 }
 
 class _FormMoodState extends State<FormMood> {
-  TextEditingController _text = TextEditingController();
+  final TextEditingController _text = TextEditingController();
   List<bool> selectionsi = [true, false, false, false];
   List<Mood> moods = [Mood.excited, Mood.happy, Mood.fine, Mood.nervous];
   @override
@@ -38,16 +34,6 @@ class _FormMoodState extends State<FormMood> {
           borderColor: Color.fromARGB(0, 0, 0, 0),
           fillColor: Color.fromARGB(255, 115, 0, 255),
           direction: Axis.vertical,
-          children: [
-            FormMoodToggle(
-              labelText: 'Excited!',
-              value: ValueKey(Mood.excited),
-            ),
-            FormMoodToggle(labelText: 'Happy', value: ValueKey(Mood.happy)),
-            FormMoodToggle(labelText: 'Fine', value: ValueKey(Mood.fine)),
-
-            FormMoodToggle(labelText: 'Nervous', value: ValueKey(Mood.nervous)),
-          ],
           isSelected: selectionsi,
           onPressed: (int index) {
             setState(() {
@@ -62,6 +48,16 @@ class _FormMoodState extends State<FormMood> {
               }
             });
           },
+          children: [
+            FormMoodToggle(
+              labelText: 'Excited!',
+              value: ValueKey(Mood.excited),
+            ),
+            FormMoodToggle(labelText: 'Happy', value: ValueKey(Mood.happy)),
+            FormMoodToggle(labelText: 'Fine', value: ValueKey(Mood.fine)),
+
+            FormMoodToggle(labelText: 'Nervous', value: ValueKey(Mood.nervous)),
+          ],
         ),
       ],
     );

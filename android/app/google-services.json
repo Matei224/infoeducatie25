@@ -1,45 +1,44 @@
 {
   "project_info": {
-    "project_number": "855327315650",
-    "project_id": "flutter-chat-6946d",
-    "storage_bucket": "flutter-chat-6946d.firebasestorage.app"
+    "project_number": "145278090577",
+    "firebase_url": "https://studee-357dd-default-rtdb.firebaseio.com",
+    "project_id": "studee-357dd",
+    "storage_bucket": "studee-357dd.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:855327315650:android:168b0fdb28d0e45f2f4d5b",
-        "android_client_info": {
-          "package_name": "com.example.chat_app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCyleUs0rvpC59qV1STox7zRw_0EJl6Hhk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:855327315650:android:8ee9e990c77dc0a92f4d5b",
+        "mobilesdk_app_id": "1:145278090577:android:509fc34381141f44f82770",
         "android_client_info": {
           "package_name": "com.example.studee_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "145278090577-6d3pfis9n8qafmngriqs8fsgcd7fp9sv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCyleUs0rvpC59qV1STox7zRw_0EJl6Hhk"
+          "current_key": "AIzaSyB73R4BgSYe_fgI-tsqy0axTi1W0peJY5c"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145278090577-6d3pfis9n8qafmngriqs8fsgcd7fp9sv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "145278090577-i8v837smeuva4plr2tnsnnt95o7br0ts.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.studeeApp"
+              }
+            }
+          ]
         }
       }
     }

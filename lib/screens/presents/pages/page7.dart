@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gender_picker/source/gender_picker.dart';
 
 import 'package:studee_app/screens/presents/pagewidgetmodal.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:syncfusion_flutter_core/core.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:animated_icon/animated_icon.dart';
-import 'package:gender_picker/source/enums.dart';
 
 class Page6GPA extends StatefulWidget {
   Page6GPA({super.key, required this.setGPA});

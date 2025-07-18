@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gender_picker/source/gender_picker.dart';
 
 import 'package:studee_app/screens/presents/pagewidgetmodal.dart';
 
-import 'package:gender_picker/source/enums.dart';
 import 'package:studee_app/widgets/form_birthday.dart';
 
 class Page3Birth extends StatelessWidget {

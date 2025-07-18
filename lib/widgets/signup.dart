@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/widgets/form_field.dart';
 import 'package:studee_app/widgets/signUp_form.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -36,17 +35,17 @@ class SignUpForm extends StatelessWidget {
           child: Column(
             children: [
               Align(
+                alignment: Alignment.topLeft,
                 child: Text(
                   'Sign Up',
                   style: GoogleFonts.raleway(
                     textStyle: TextStyle(
-                      color: Color.fromARGB(255, 115, 0, 255),
+                      color: Color.fromARGB(255, 255, 81, 0),
                       fontSize: 24,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-                alignment: Alignment.topLeft,
               ),
               Center(
                 child: Row(
@@ -68,7 +67,7 @@ class SignUpForm extends StatelessWidget {
                         'Log in',
                         style: GoogleFonts.raleway(
                           textStyle: TextStyle(
-                            color: Color.fromARGB(255, 115, 0, 255),
+                            color: Color.fromARGB(255, 255, 81, 0),
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -99,9 +98,9 @@ class SignUpForm extends StatelessWidget {
           child: ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll<Color>(
-                Color.fromARGB(255, 115, 0, 255),
+                Color.fromARGB(255, 255, 81, 0),
               ),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),

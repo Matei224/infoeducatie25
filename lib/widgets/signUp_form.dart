@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:studee_app/widgets/formSignUp/form_email.dart';
 import 'package:studee_app/widgets/formSignUp/form_password.dart';
 import 'package:studee_app/widgets/formSignUp/form_username.dart';
-import 'package:studee_app/widgets/form_field.dart';
 
 class signUpForm extends StatefulWidget {
   signUpForm({

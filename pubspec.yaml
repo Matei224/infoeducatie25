@@ -46,7 +46,13 @@ dependencies:
   animated_icon: ^0.0.9
   image_picker: ^1.1.2
   validators: ^3.0.0
+  sqflite: ^2.4.2
+  path: ^1.9.1
+  uid: ^0.0.2
+  cloud_firestore: ^5.6.8
 
+  syncfusion_flutter_core: any
+  google_sign_in: ^7.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,6 +79,11 @@ flutter:
   assets:
    - assets/images/bkg.png
    - assets/images/logo.png
+   - assets/images/EPFL.jpg
+   - assets/images/logo/logo-epfl.png
+   - assets/images/signup.png
+   - assets/images/oslo.jpg
+   - assets/images/logo/oslo.png
  
 
   # An image asset can refer to one or more resolution-specific "variants", see

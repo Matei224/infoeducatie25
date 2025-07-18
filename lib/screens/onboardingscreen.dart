@@ -1,8 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gender_picker/source/gender_picker.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/form_universities.dart';
-import 'package:studee_app/model/budget.dart';
+import 'package:gender_picker/source/enums.dart';
 import 'package:studee_app/model/mood.dart';
 import 'package:studee_app/model/profileModel.dart';
 import 'package:studee_app/screens/presents/pages/page1.dart';
@@ -14,21 +13,10 @@ import 'package:studee_app/screens/presents/pages/page6.dart';
 import 'package:studee_app/screens/presents/pages/page7.dart';
 import 'package:studee_app/screens/presents/pages/page8.dart';
 import 'package:studee_app/screens/presents/pages/page9.dart';
-import 'package:studee_app/widgets/form_birthday.dart';
-import 'package:studee_app/widgets/form_budget.dart';
-import 'package:studee_app/widgets/form_dropdown_list.dart';
-import 'package:studee_app/widgets/form_field_introduction.dart';
-import 'package:gender_picker/source/enums.dart';
-import 'package:gender_picker/source/gender_picker.dart';
-import 'package:studee_app/widgets/form_mood.dart';
-import 'package:studee_app/widgets/form_mood_toggle.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:syncfusion_flutter_core/core.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:animated_icon/animated_icon.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+  OnboardingScreen({super.key, required this.done});
+  void Function() done;
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
@@ -70,7 +58,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _form4 = GlobalKey<FormState>();
   final _form5 = GlobalKey<FormState>();
 
-  void nextPage() {
+  void uploadData() async {
+    final user = FirebaseAuth.instance.currentUser!;
+
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+        'gender': person.myGender.toString(),
+        'gpa': person.gpa.toString(),
+        'firstName': person.firstName.toString(),
+        'lastName': person.lastName.toString(),
+        'topUnivs': FieldValue.arrayUnion(person.chosenUniversities!),
+        'subject': person.mySubjectOfInterest,
+      }, SetOptions(merge: true));
+      print('Data uploaded successfully');
+    } catch (e) {
+      print('Error uploading data: $e');
+    }
+  }
+
+  void nextPage() async {
     switch (currentPage) {
       case 0:
         if (currentPage < totalPages - 1) {
@@ -182,13 +188,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         break;
 
       case 8:
-        if (currentPage < totalPages - 1) {
-          print('${person.mood}');
-
+        if (currentPage == totalPages - 1) {
           setState(() {
-            currentPage++;
+            uploadData();
+            widget.done();
           });
         }
+        uploadData();
+        widget.done();
+        print('${person.mood}');
 
         break;
     }
@@ -205,7 +213,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           // Progress bar with animated circle
           Padding(
             padding: EdgeInsets.only(left: size.width * 0.03),
-            child: Container(
+            child: SizedBox(
               width: 20,
               height: size.height * 0.8,
               child: Stack(
@@ -266,7 +274,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       padding: const EdgeInsets.only(bottom: 20.0),
                       child: GestureDetector(
                         onPanUpdate: (e) {
-                          if (e.delta.dy < -5) {
+                          if (e.delta.dy < -10) {
                             nextPage();
                           }
                         },

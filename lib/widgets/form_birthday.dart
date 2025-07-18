@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:email_validator/email_validator.dart';
 
 class FormBirthday extends StatefulWidget {
-  FormBirthday({super.key, required this.labelText, required this.form});
+  const FormBirthday({super.key, required this.labelText, required this.form});
   final String? labelText;
   final form;
 
@@ -15,7 +13,7 @@ class FormBirthday extends StatefulWidget {
 class _FormBirthdayState extends State<FormBirthday> {
   String? enteredUsername;
 
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -76,7 +74,7 @@ class _FormBirthdayState extends State<FormBirthday> {
             _selectDate(context);
           },
           validator: (val) {
-            if (_dateController.text == null || _dateController.text.isEmpty) {
+            if (_dateController.text.isEmpty) {
               return 'Please enter a date';
             }
             return null;

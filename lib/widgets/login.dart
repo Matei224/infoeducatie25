@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:studee_app/widgets/formSignUp/form_email.dart';
 import 'package:studee_app/widgets/formSignUp/form_password.dart';
-import 'package:studee_app/widgets/form_field.dart';
 
 class LoginForm extends StatelessWidget {
   LoginForm({
@@ -40,6 +39,7 @@ class LoginForm extends StatelessWidget {
           child: Column(
             children: [
               Align(
+                alignment: Alignment.topLeft,
                 child: Text(
                   'Log in',
                   style: GoogleFonts.raleway(
@@ -50,7 +50,6 @@ class LoginForm extends StatelessWidget {
                     ),
                   ),
                 ),
-                alignment: Alignment.topLeft,
               ),
               Center(
                 child: Row(
@@ -155,7 +154,7 @@ class LoginForm extends StatelessWidget {
               backgroundColor: WidgetStatePropertyAll<Color>(
                 Color.fromARGB(255, 115, 0, 255),
               ),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),

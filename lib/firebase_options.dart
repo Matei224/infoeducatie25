@@ -50,19 +50,23 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCyleUs0rvpC59qV1STox7zRw_0EJl6Hhk',
-    appId: '1:855327315650:android:8ee9e990c77dc0a92f4d5b',
-    messagingSenderId: '855327315650',
-    projectId: 'flutter-chat-6946d',
-    storageBucket: 'flutter-chat-6946d.firebasestorage.app',
+    apiKey: 'AIzaSyB73R4BgSYe_fgI-tsqy0axTi1W0peJY5c',
+    appId: '1:145278090577:android:509fc34381141f44f82770',
+    messagingSenderId: '145278090577',
+    projectId: 'studee-357dd',
+    databaseURL: 'https://studee-357dd-default-rtdb.firebaseio.com',
+    storageBucket: 'studee-357dd.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDkhJICXWwB1dglyJs309d57WLm8ilqy2s',
-    appId: '1:855327315650:ios:b5165411997a15972f4d5b',
-    messagingSenderId: '855327315650',
-    projectId: 'flutter-chat-6946d',
-    storageBucket: 'flutter-chat-6946d.firebasestorage.app',
+    apiKey: 'AIzaSyC23n9JfFJkrV1EfQF9LMLBmGqInsgHP4U',
+    appId: '1:145278090577:ios:90427f94edc921ddf82770',
+    messagingSenderId: '145278090577',
+    projectId: 'studee-357dd',
+    databaseURL: 'https://studee-357dd-default-rtdb.firebaseio.com',
+    storageBucket: 'studee-357dd.firebasestorage.app',
+    iosClientId: '145278090577-i8v837smeuva4plr2tnsnnt95o7br0ts.apps.googleusercontent.com',
     iosBundleId: 'com.example.studeeApp',
   );
+
 }

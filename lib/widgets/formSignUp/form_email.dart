@@ -1,10 +1,7 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class FormAuthEmail extends StatelessWidget {
   FormAuthEmail({
@@ -55,13 +52,14 @@ class FormAuthEmail extends StatelessWidget {
           if (val == null || val.isEmpty) {
             return 'Please enter an e-mail';
           }
-          if (!EmailValidator.validate(val!))
+          if (!EmailValidator.validate(val)) {
             return 'Please enter a valide e-mail.';
+          }
 
           return null;
         },
         onSaved: (value) {
-          if (value == null || value.isEmpty) return null;
+          if (value == null || value.isEmpty) return;
           getter(value.trim());
         },
       ),
