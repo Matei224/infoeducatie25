@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studee_app/data/database.dart';
 import 'package:studee_app/main.dart';
-import 'package:studee_app/model/filterchipitem.dart';
+import 'package:studee_app/widgets/model/filterchipitem.dart';
 import 'package:studee_app/widgets/filtering/filterchipdropdown.dart';
 
 enum Filter { location, degree, programme }

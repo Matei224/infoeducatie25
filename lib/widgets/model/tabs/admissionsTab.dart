@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/model/dataTextModel.dart';
-import 'package:studee_app/model/text_data.dart';
-import 'package:studee_app/model/university/univeristy_full.dart';
-import 'package:studee_app/model/url_link.dart';
+import 'package:studee_app/widgets/model/dataTextModel.dart';
+import 'package:studee_app/data/university/univeristy_full.dart';
+import 'package:studee_app/widgets/model/url_link.dart';
 
 class AdmissionsTab extends StatelessWidget {
   AdmissionsTab({super.key, required this.university});

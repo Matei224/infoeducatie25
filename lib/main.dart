@@ -7,8 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:studee_app/data/database.dart';
-import 'package:studee_app/model/filterchipitem.dart';
-import 'package:studee_app/model/university.dart';
+import 'package:studee_app/widgets/model/filterchipitem.dart';
+import 'package:studee_app/data/university.dart';
 import 'package:studee_app/screens/auth_screen.dart';
 import 'package:studee_app/screens/main_screen.dart';
 import 'package:studee_app/screens/onboardingscreen.dart';
@@ -23,7 +23,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseHelper.instance.database;
   await initializeFilters();
-  await initializeNameUnivs(); // Populate filters from database  
+  await initializeNameUnivs(); 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

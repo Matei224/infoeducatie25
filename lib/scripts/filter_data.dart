@@ -1,25 +1,20 @@
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() async {
-  // Initialize sqflite for desktop
   sqfliteFfiInit();
   final databaseFactory = databaseFactoryFfi;
 
-  // Open the existing database
   final existingDb = await databaseFactory.openDatabase('filtered_universities.db');
 
-  // Query universities where urlImage starts with 'h', limited to 1000
  final universities = await existingDb.query(
     'universities',
     where: 'graduationRate IS NOT NULL AND GraduationRate <> ?',
-    whereArgs: [''], // Represents "not empty"
+    whereArgs: [''], 
   );
 
 
-  // Open the new database
   final newDb = await databaseFactory.openDatabase('actual_universities.db');
 
-  // Create the universities table in the new database
   await newDb.execute('''
     CREATE TABLE universities (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -88,16 +83,14 @@ void main() async {
     )
   ''');
 
-  // Insert the selected universities into the new database using a batch
   final batch = newDb.batch();
   for (var university in universities) {
     final Map<String, dynamic> newUniversity = Map.from(university);
-    newUniversity.remove('id'); // Remove 'id' to allow autoincrement in new db
+    newUniversity.remove('id'); 
     batch.insert('universities', newUniversity);
   }
   await batch.commit(noResult: true);
 
-  // Close both databases
   await existingDb.close();
   await newDb.close();
 

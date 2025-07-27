@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:studee_app/model/favoritesWidget.dart';
-import 'package:studee_app/model/university.dart';
+import 'package:studee_app/widgets/model/favoritesWidget.dart';
+import 'package:studee_app/data/university.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:studee_app/model/university/univeristy_full.dart';
+import 'package:studee_app/data/university/univeristy_full.dart';
 
 class FavoritesScreen extends StatefulWidget {
   FavoritesScreen({super.key, required this.favorites});

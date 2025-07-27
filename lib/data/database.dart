@@ -8,11 +8,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:studee_app/model/filterchipitem.dart';
-import 'package:studee_app/model/university/univeristy_full.dart';
+import 'package:studee_app/widgets/model/filterchipitem.dart';
+import 'package:studee_app/data/university/univeristy_full.dart';
 import 'package:studee_app/services/api_services.dart';
 import 'package:studee_app/widgets/filteringrow.dart';
-import '../model/university.dart';
+import 'university.dart';
 import 'package:http/http.dart' as http;
 
  
@@ -130,16 +130,14 @@ Future<void> deleteDatabaseFile() async {
   ) async {
     final db = await database;
     String whereClause =
-        '(name LIKE ? COLLATE NOCASE OR (abreviation == ? COLLATE NOCASE))'; // Case-insensitive name search
-    List<String> whereArgs = ['%$query%','%$query%']; // Wildcards for partial matching
+        '(name LIKE ? COLLATE NOCASE OR (abreviation == ? COLLATE NOCASE))'; 
+    List<String> whereArgs = ['%$query%','%$query%']; 
 
-    // Add programme filter if set
     if (filters[Filter.programme] != '') {
       whereClause += " AND (undergraduateProgrammes IS NOT NULL AND LOWER(undergraduateProgrammes) LIKE '%' || LOWER(?) || '%')";
       whereArgs.add(filters[Filter.programme]!);
     }
 
-    // Add degree filter if set
     if (filters[Filter.degree] != '') {
       if (filters[Filter.degree]?.isNotEmpty ?? false) {
   final budgetFilterValue = filters[Filter.degree]!;
@@ -151,7 +149,6 @@ Future<void> deleteDatabaseFile() async {
 }
     }
 
-    // Add location (country) filter if set
     if (filters[Filter.location] != '') {
       whereClause += " AND country = ? COLLATE NOCASE";
       whereArgs.add(filters[Filter.location]!);
@@ -159,7 +156,7 @@ Future<void> deleteDatabaseFile() async {
     }
 
     final maps = await db.query(
-      'universities', // Table name
+      'universities', 
       where: whereClause,
       whereArgs: whereArgs,
     );

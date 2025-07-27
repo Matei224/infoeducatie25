@@ -57,7 +57,6 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // purple offset background
           Positioned(
             top: 8,
             left: 8,
@@ -71,7 +70,6 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
             ),
           ),
 
-          // main white card
           Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -81,7 +79,6 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // top image
                 GestureDetector(
                   onTap:
                       () => navigateToUniversityInfo(context, widget.favorite),
@@ -100,7 +97,6 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
                   ),
                 ),
 
-                // text + icon row
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -116,7 +112,6 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // title + subtitle
                           Text(
                             widget.favorite.name,
                             style: GoogleFonts.poppins(
@@ -153,10 +148,10 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
                                       255,
                                       251,
                                       238,
-                                    ), // Orange background for text
+                                    ), 
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
-                                      color: Colors.black, // Orange border
+                                      color: Colors.black, 
                                       width: 1.5,
                                     ),
                                   ),
@@ -173,7 +168,6 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
                             ),
                           ),
 
-                          // bookmark icon
                         ],
                       ),
                     ),

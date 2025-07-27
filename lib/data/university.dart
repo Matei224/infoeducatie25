@@ -83,7 +83,7 @@ alphaTwoCode: map['alphaTwoCode']
 
   
   factory University.fromJson(Map<String, dynamic> json) => University(
-    name: json["name"] ?? "Unknown", // Name from JSON, with fallback
+    name: json["name"] ?? "Unknown", 
     city: "Hardcoded City",
         country: json["country"] ?? 'XXXXX',
     urlImage: "https://example.com/hardcoded-image.jpg",

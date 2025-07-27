@@ -8,7 +8,7 @@ import 'package:studee_app/model/tabs/admissionsTab.dart';
 import 'package:studee_app/model/tabs/campusTab.dart';
 import 'package:studee_app/model/tabs/costsTab.dart';
 import 'package:studee_app/model/university.dart';
-import 'package:studee_app/model/university/univeristy_full.dart'; // Assuming University model is here
+import 'package:studee_app/model/university/univeristy_full.dart'; 
 
 class UniversityDetailScreen extends StatefulWidget {
   final ActualUniveristy university;
@@ -93,7 +93,6 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                       },
                       icon: Icon(Icons.arrow_back, size: 20),
                     ),
-                    // Background image with logo
                     Stack(
                       children: [
                         widget.university.urlImage != null &&
@@ -138,7 +137,6 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                       ],
                     ),
                     const SizedBox(height: 15),
-                    // University name and bookmark icon
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
@@ -184,10 +182,10 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                                 255,
                                 251,
                                 238,
-                              ), // Orange background for text
+                              ), 
                               borderRadius: BorderRadius.circular(14),
                               border: Border.all(
-                                color: Colors.black, // Orange border
+                                color: Colors.black, 
                                 width: 1.5,
                               ),
                             ),
@@ -205,7 +203,6 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                         ],
                       ),
                     ),
-                    // Tabbed navigation
                     DefaultTabController(
                       length: 4,
                       child: Column(
@@ -258,7 +255,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                             ],
                             labelColor:
                                 Colors
-                                    .black, // Default selected color (overridden by individual styles)
+                                    .black, 
                             unselectedLabelStyle: GoogleFonts.raleway(
                               fontSize: 12,
                               color: Colors.black,
@@ -266,13 +263,12 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                             indicatorWeight: 4.0,
                             unselectedLabelColor:
                                 Colors
-                                    .grey, // Default unselected color (overridden by individual styles)
+                                    .grey, 
                           ),
                           SizedBox(
-                            height: size.width*0.8, // Adjust height as needed
+                            height: size.width*0.8, 
                             child: TabBarView(
                               children: [
-                                // Academics tab content
                                 AcademicsTab(university: widget.university),
                                 CostsTab(university: widget.university),
                                 AdmissionsTab(university: widget.university),

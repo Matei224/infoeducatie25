@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studee_app/model/mood.dart';
+import 'package:studee_app/data/mood.dart';
 import 'package:studee_app/widgets/form_mood_toggle.dart';
 
 class FormMood extends StatefulWidget {

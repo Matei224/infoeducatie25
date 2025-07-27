@@ -9,13 +9,13 @@ class HomeText extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color.fromARGB(255, 115, 0, 255), // Match the text color for consistency
-          width: 2, // Adjust border width as needed
+          color: Color.fromARGB(255, 115, 0, 255), 
+          width: 2, 
         ),
         borderRadius: BorderRadius.circular(13),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 10), // Ensures at least 10px offset on all sides
+        padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 10), 
         child: RichText(
           text: TextSpan(
             text: 'our ',

@@ -34,7 +34,7 @@ class FormAuthPassword extends StatelessWidget {
       width: size.width * 0.68,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 1.2),
-        borderRadius: BorderRadius.circular(8.0), // Uniform radius
+        borderRadius: BorderRadius.circular(8.0), 
       ),
       child: ShowHidePassword(
         hidePassword: true,

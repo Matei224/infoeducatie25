@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studee_app/form_universities.dart';
+import 'package:studee_app/widgets/form_universities.dart';
 
 import 'package:studee_app/screens/presents/pagewidgetmodal.dart';
 

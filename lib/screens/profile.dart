@@ -27,15 +27,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId != null) {
       try {
-        //  final ref = FirebaseStorage.instance.ref().child(
-        //      'images/$userId/profile.jpg',
-        //   );
-        //   final url = await ref.getDownloadURL();
-        //   setState(() {
-        //     _imageUrl = url;
-        //    });
       } catch (e) {
-        // Handle error, e.g., image not found
       }
     }
   }
@@ -46,19 +38,12 @@ class _UserImagePickerState extends State<UserImagePicker> {
     if (pickedFile != null) {
       final userId = FirebaseAuth.instance.currentUser?.uid;
       if (userId != null) {
-        //   final ref = FirebaseStorage.instance.ref().child(
-        //    'images/$userId/profile.jpg',
-        //   );
-        //   await ref.putFile(File(pickedFile.path));
-        //  final url = await ref.getDownloadURL();
         setState(() {
-          //     _imageUrl = url;
         });
       }
     }
   }
 
-  // Show options to pick from gallery or camera
   void _showPickerOptions() {
     print('ok');
     showModalBottomSheet(

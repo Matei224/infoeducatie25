@@ -35,10 +35,9 @@ class Page2Gender extends StatelessWidget {
         equallyAligned: true,
         animationDuration: Duration(milliseconds: 300),
         isCircular: true,
-        // default : true,
         opacityOfGradient: 0.4,
         padding: const EdgeInsets.all(3),
-        size: 90, //default : 40),
+        size: 90, 
       ),
     );
   }

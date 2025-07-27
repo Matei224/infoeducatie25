@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gender_picker/source/enums.dart';
-import 'package:studee_app/model/mood.dart';
-import 'package:studee_app/model/profileModel.dart';
+import 'package:studee_app/data/mood.dart';
+import 'package:studee_app/data/profileModel.dart';
 import 'package:studee_app/screens/presents/pages/page1.dart';
 import 'package:studee_app/screens/presents/pages/page2.dart';
 import 'package:studee_app/screens/presents/pages/page3.dart';
@@ -199,8 +199,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       case 8:
         if (finish == true) {
           uploadData();
-          // No need to increment currentPage or call widget.done()
-          // StreamBuilder will handle the transition to MainScreen
         }
         break;
     }
@@ -215,7 +213,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       backgroundColor: Color.fromARGB(255, 115, 0, 255),
       body: Row(
         children: [
-          // Progress bar with animated circle
           Padding(
             padding: EdgeInsets.only(left: size.width * 0.03),
             child: SizedBox(
@@ -223,7 +220,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               height: size.height * 0.8,
               child: Stack(
                 children: [
-                  // The vertical bar
                   Positioned(
                     left: 9,
                     child: Container(
@@ -232,7 +228,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  // The animated circle
                   AnimatedPositioned(
                     duration: Duration(milliseconds: 300),
                     top: (currentPage / (totalPages - 1)) * (size.height * 0.8 - 20),
@@ -251,7 +246,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
 
-          // Main content with fading text and swipe button
           Expanded(
             child: Stack(
               children: [

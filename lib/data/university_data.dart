@@ -129,7 +129,6 @@ class Campus {
     required this.numbeoSafetyUrl,
   });
 }
-// Parse the input string Stringo a map of category to label-value pairs
 Map<String, Map<String, String>> parseData1(String input) {
   final data = <String, Map<String, String>>{};
   final lines = input.split('\n');
@@ -202,8 +201,6 @@ Map<String, Map<String, String>> parseData2(String input) {
   return data;
 }
 
-// Create Academics object with raw strings
-// Create Academics object with raw strings
 Academics createAcademics(Map<String, String> academicsData) {
   return Academics(
     graduationRate: academicsData["Graduation rate"] ?? '',

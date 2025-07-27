@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/model/gpabox.dart';
-import 'package:studee_app/model/profileChangeUniv.dart';
-import 'package:studee_app/model/profileModel.dart';
+import 'package:studee_app/widgets/model/gpabox.dart';
+import 'package:studee_app/widgets/model/profileChangeUniv.dart';
+import 'package:studee_app/data/profileModel.dart';
 
 class ProfileData extends StatefulWidget {
   const ProfileData({super.key});
@@ -39,17 +39,17 @@ class _ProfileDataState extends State<ProfileData> {
                   data['topUnivs'] != null ? List<String>.from(data['topUnivs']) : null,
               mySubjectOfInterest: data['subject'],
             );
-            isLoading = false; // Data is ready, stop loading
+            isLoading = false; 
           });
         } else {
           setState(() {
-            isLoading = false; // No data, stop loading
+            isLoading = false; 
           });
         }
       }
     } catch (e) {
       setState(() {
-        isLoading = false; // Error occurred, stop loading
+        isLoading = false; 
       });
       print('Error fetching profile data: $e');
     }
@@ -61,9 +61,9 @@ class _ProfileDataState extends State<ProfileData> {
 
   void setGpa(String gp) {
     setState(() {
-      gpa = gp; // Update local gpa
+      gpa = gp; 
       if (person != null) {
-        person!.setGPA(double.tryParse(gp)); // Update person.gpa using setGPA
+        person!.setGPA(double.tryParse(gp)); 
       }
     });
   }
@@ -73,23 +73,23 @@ class _ProfileDataState extends State<ProfileData> {
       setState(() {
         isEdit = true;
       });
-      setEdit(false); // Ensure edit mode is off initially, will be toggled
+      setEdit(false); 
     }
   }
 
   void setEdit(bool setEdit) {
     if (mounted) {
       setState(() {
-        isEdit = setEdit; // Correctly set isEdit
+        isEdit = setEdit; 
       });
     }
   }
 
   Future<void> submitGpa() async {
-    if (!mounted) return; // Exit if widget is already unmounted
+    if (!mounted) return; 
     if (formGpa.currentState!.validate()) {
       formGpa.currentState!.save();
-      print('GPA after save: $gpa'); // Debug: Check if gpa is updated
+      print('GPA after save: $gpa'); 
       if (gpa != null) {
         User? user = FirebaseAuth.instance.currentUser;
         if (user != null) {
@@ -99,12 +99,11 @@ class _ProfileDataState extends State<ProfileData> {
                 .doc(user.uid)
                 .update({'gpa': gpa});
            
-              // Refresh UI with latest data
-              await fetchProfileData(); // Re-fetch to ensure UI reflects Firestore
+              await fetchProfileData(); 
               setState(() {
                 isEdit = false;
               });
-              setEdit(false); // Ensure edit mode is turned off
+              setEdit(false); 
             
           
         } else if (mounted) {

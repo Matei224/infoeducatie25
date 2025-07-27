@@ -4,9 +4,9 @@ import "package:google_fonts/google_fonts.dart";
 import "package:google_sign_in/google_sign_in.dart" show GoogleSignIn;
 import "package:shared_preferences/shared_preferences.dart";
 import "package:studee_app/data/database.dart";
-import "package:studee_app/model/university.dart";
-import "package:studee_app/model/university/univeristy_full.dart";
-import "package:studee_app/model/universityWidget.dart";
+import "package:studee_app/data/university.dart";
+import "package:studee_app/data/university/univeristy_full.dart";
+import "package:studee_app/widgets/model/universityWidget.dart";
 import "package:studee_app/widgets/filteringrow.dart";
 
 class SearchPage extends StatefulWidget {
@@ -38,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
     fetchUniversitiesFromDatabase(
       '',
       filters,
-    ); // Fetch all universities initially
+    ); 
   }
 
 
@@ -48,7 +48,6 @@ class _SearchPageState extends State<SearchPage> {
     List<String> searchHistory = prefs.getStringList('searchHistory') ?? [];
     if (!searchHistory.contains(query)) {
       searchHistory.add(query);
-      // Limit to last 5 searches
       if (searchHistory.length > 5) {
         searchHistory.removeAt(0);
       } 
@@ -95,7 +94,7 @@ class _SearchPageState extends State<SearchPage> {
     Map<Filter, String> filters,
   ) async {
     setState(() {
-      isLoading = true; // Show loading indicator
+      isLoading = true; 
     });
     try {
         await _saveSearchQuery(query);
@@ -104,7 +103,7 @@ class _SearchPageState extends State<SearchPage> {
           .searchUniversities(query, filters);
       setState(() {
         univs = fetchedUniversities;
-        isLoading = false; // Hide loading indicator
+        isLoading = false; 
       });
     } catch (e) {
       print(e);
@@ -113,8 +112,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    // var filteredList =
-    //     univs.where((univ) => matchesFilters(univ, filters)).toList();
     print(univs);
     return Expanded(
       child: Column(
@@ -125,7 +122,7 @@ class _SearchPageState extends State<SearchPage> {
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black, width: 1.2),
-                borderRadius: BorderRadius.circular(8.0), // Uniform radius
+                borderRadius: BorderRadius.circular(8.0), 
               ),
               child: Padding(
                 padding: EdgeInsetsDirectional.symmetric(horizontal: 6),
@@ -153,7 +150,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                   onChanged: (e) {
                     fetchUniversitiesFromDatabase(e, filters);
-                  }, // searchUniversities,
+                  }, 
                 ),
               ),
             ),
@@ -216,11 +213,11 @@ class _SearchPageState extends State<SearchPage> {
                 isLoading
                     ? const Center(
                       child: CircularProgressIndicator(),
-                    ) // Show loading
+                    ) 
                     : univs == null
                     ? const Center(
                       child: Text("No data available"),
-                    ) // Handle null
+                    ) 
                     : ListView.builder(
                       itemCount: univs!.length,
                       itemBuilder: (context, index) {

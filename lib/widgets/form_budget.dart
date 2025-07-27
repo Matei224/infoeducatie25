@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/model/budget.dart';
+import 'package:studee_app/data/budget.dart';
 import 'package:studee_app/widgets/form_budget_toggle.dart';
 import 'package:validators/validators.dart';
 

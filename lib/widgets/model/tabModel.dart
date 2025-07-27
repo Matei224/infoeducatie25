@@ -19,7 +19,7 @@ class _TabBarExampleState extends State<TabBarExample> with SingleTickerProvider
   }
 
   void _handleTabSelection() {
-    setState(() {}); // Trigger rebuild to update indicator color
+    setState(() {}); 
   }
 
   @override
@@ -30,16 +30,16 @@ class _TabBarExampleState extends State<TabBarExample> with SingleTickerProvider
 
   Color getIndicatorColor() {
     switch (_tabController.index) {
-      case 0: // Academic
+      case 0: 
         return Color.fromARGB(255, 115, 0, 255);
-      case 1: // Costs
+      case 1: 
         return Color.fromARGB(255, 200, 255, 0);
-      case 2: // Admission
+      case 2: 
         return Color.fromARGB(255, 255, 81, 0);
-      case 3: // Campus
+      case 3: 
         return Color.fromARGB(255, 255, 132, 177);
       default:
-        return Colors.black; // Default color
+        return Colors.black; 
     }
   }
 
@@ -89,16 +89,15 @@ class _TabBarExampleState extends State<TabBarExample> with SingleTickerProvider
                 ),
               ),
             ],
-            labelColor: Colors.black, // Default selected color (overridden by individual styles)
+            labelColor: Colors.black, 
             unselectedLabelStyle: GoogleFonts.raleway(
               fontSize: 12,
               color: Colors.black,
             ),
-            indicatorColor: getIndicatorColor(), // Dynamic divider color
+            indicatorColor: getIndicatorColor(), 
             indicatorWeight: 6.0,
-            unselectedLabelColor: Colors.grey, // Default unselected color (overridden by individual styles)
+            unselectedLabelColor: Colors.grey, 
           ),
-          // Add TabBarView or other content here if needed
           Expanded(
             child: TabBarView(
               controller: _tabController,

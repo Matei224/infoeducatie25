@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gender_picker/source/gender_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/form_universities.dart';
+import 'package:studee_app/widgets/form_universities.dart';
 import 'package:studee_app/widgets/form_birthday.dart';
 import 'package:studee_app/widgets/form_budget.dart';
 import 'package:studee_app/widgets/form_dropdown_list.dart';

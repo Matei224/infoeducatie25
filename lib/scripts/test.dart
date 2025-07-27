@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:studee_app/model/university_data.dart';
+import 'package:studee_app/data/university_data.dart';
 import 'dart:async';
 
 import 'package:studee_app/services/api_services.dart';

@@ -45,7 +45,7 @@ class _FormBirthdayState extends State<FormBirthday> {
       width: size.width * 0.68,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white, width: 1.2),
-        borderRadius: BorderRadius.circular(8.0), // Uniform radius
+        borderRadius: BorderRadius.circular(8.0), 
       ),
       child: Form(
         key: widget.form,

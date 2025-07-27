@@ -92,7 +92,7 @@ class _ProfileUnivState extends State<ProfileUniv> {
           width: 1.2,
         ),
         color: Color.fromARGB(255, 234, 218, 255),
-        borderRadius: BorderRadius.circular(8.0), // Uniform radius
+        borderRadius: BorderRadius.circular(8.0), 
       ),
 
       child: Stack(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studee_app/model/filterchipitem.dart';
+import 'package:studee_app/widgets/model/filterchipitem.dart';
 
 class FilterChipDropdown extends StatefulWidget {
   const FilterChipDropdown({

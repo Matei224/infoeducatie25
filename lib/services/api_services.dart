@@ -1,11 +1,10 @@
 import "dart:convert";
 
 import "package:http/http.dart" as http;
-import "package:studee_app/model/university.dart";
+import "package:studee_app/data/university.dart";
 
 class ApiServices
 {
-  // University Domains List API
   Future<List<University>?> getUniversities() async {
     var client = http.Client();
 
@@ -25,7 +24,6 @@ class ApiServices
 
 
 
-  //Mediawiki API
   Future<Map<String, dynamic>?> getUniversityImage(String universityName) async {
     try {
     var searchUrl = '''https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=

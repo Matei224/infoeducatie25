@@ -38,23 +38,22 @@ class _Page6GPAState extends State<Page6GPA> {
               115,
               0,
               255,
-            ), // Circles as purple dividers
+            ), 
             inactiveDividerColor: Color.fromARGB(
               255,
               115,
               0,
               255,
-            ), // Consistent divider color
+            ), 
             thumbColor: Color.fromARGB(
               255,
               115,
               0,
               255,
-            ), // Thumb matches dividers
-            thumbStrokeWidth: 2.0, // Border around thumb
-            thumbStrokeColor: Colors.white, // White border for contrast
+            ), 
+            thumbStrokeWidth: 2.0, 
+            thumbStrokeColor: Colors.white, 
             thumbRadius: 10,
-            // Slightly larger thumb for visibility
           ),
           child: SfSlider(
             min: 2.0,
@@ -67,10 +66,10 @@ class _Page6GPAState extends State<Page6GPA> {
                 widget.setGPA(widget.gpa);
               });
             },
-            stepSize: 0.375, // Ensures snapping to discrete steps
-            interval: 0.375, // Places dividers at each step
+            stepSize: 0.375, 
+            interval: 0.375, 
             showDividers: true,
-            enableTooltip: true, // Displays dividers as dots
+            enableTooltip: true, 
           ),
         ),
       ),

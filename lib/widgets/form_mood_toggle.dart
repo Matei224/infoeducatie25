@@ -18,7 +18,7 @@ class FormMoodToggle extends StatelessWidget {
       width: size.width * 0.5,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white, width: 1.2),
-        borderRadius: BorderRadius.circular(8.0), // Uniform radius
+        borderRadius: BorderRadius.circular(8.0), 
       ),
       child: Padding(
         padding: EdgeInsets.only(left: 5, right: 5),

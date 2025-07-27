@@ -12,7 +12,7 @@ class FormAuth extends StatelessWidget {
       width: 260,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 1.2),
-        borderRadius: BorderRadius.circular(8.0), // Uniform radius
+        borderRadius: BorderRadius.circular(8.0), 
       ),
       child: TextFormField(
         decoration: InputDecoration(

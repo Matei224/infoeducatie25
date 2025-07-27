@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studee_app/model/dataTextModel.dart';
+import 'package:studee_app/widgets/model/dataTextModel.dart';
 
 class RowDataModel extends StatelessWidget {
   RowDataModel({super.key,required this.icon,required this.text,this.data,required this.colorTitle});

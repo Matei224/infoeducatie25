@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<String> callPuterApi(String query, String contextUrl) async {
-  final url = Uri.parse('https://api.puter.com/ai/chat'); // Adjust based on docs
+  final url = Uri.parse('https://api.puter.com/ai/chat'); 
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
@@ -13,7 +13,7 @@ Future<String> callPuterApi(String query, String contextUrl) async {
     }),
   );
   if (response.statusCode == 200) {
-    return jsonDecode(response.body)['response']; // Adjust based on API response format
+    return jsonDecode(response.body)['response']; 
   } else {
     return 'Unknown';
   }

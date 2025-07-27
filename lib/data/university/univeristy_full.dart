@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:studee_app/model/university_data.dart';
+import 'package:studee_app/data/university_data.dart';
 
 List<ActualUniveristy> ActualUniveristyFromJson(String str) =>
     List<ActualUniveristy>.from(json.decode(str).map((x) => ActualUniveristy.fromJson(x)));
@@ -21,8 +21,6 @@ class ActualUniveristy {
   final String alphaTwoCode;
   final List<String> webPages;
   final String abreviation;
-  // New fields from ActualUniveristyData
-  // Academics
   final String graduationRate;
   final String employabilityRate;
   final String retentionRate;
@@ -33,12 +31,10 @@ class ActualUniveristy {
   final String homePageUrl;
   final String academicsMapsLocationUrl;
 
-  // Costs
   final String averageCostPerYear;
   final String studentsReceivingFinancialAidPercentage;
   final String financialAidApplicationDate;
 
-  // Life
   final String housingFoundRate;
   final String housingPricePerYear;
   final String taxesCostPerYear;
@@ -50,7 +46,6 @@ class ActualUniveristy {
   final String numbeoGoodsAndServicesPricesUrl;
   final String numbeoFoodPricesUrl;
 
-  // Admissions
   final String acceptanceRate;
   final String englishRequirements;
   final String otherLanguages;
@@ -64,7 +59,6 @@ class ActualUniveristy {
   final String admissionsPageUrl;
   final String admissionsMapsLocationUrl;
 
-  // Campus
   final String safetyRate;
   final String averageStudentsNumber;
   final String costPerYear;
@@ -91,7 +85,6 @@ class ActualUniveristy {
     this.urlLogo,
     required this.alphaTwoCode,
     required this.webPages,
-    // New fields from ActualUniveristyData
     required this.graduationRate,
     required this.employabilityRate,
     required this.retentionRate,
@@ -152,7 +145,6 @@ class ActualUniveristy {
       'urlLogo': urlLogo,
       'alphaTwoCode': alphaTwoCode,
       'webPages': jsonEncode(webPages),
-      // New fields
       'graduationRate': graduationRate,
       'employabilityRate': employabilityRate,
       'retentionRate': retentionRate,
@@ -218,7 +210,6 @@ class ActualUniveristy {
       webPages: map['webPages'] != null
           ? List<String>.from(jsonDecode(map['webPages']))
           : [],
-      // New fields
       graduationRate: map['graduationRate']as String? ?? 'Unknown',
       employabilityRate: map['employabilityRate']as String? ?? 'Unknown',
       retentionRate: map['retentionRate']as String? ?? 'Unknown',
@@ -281,7 +272,6 @@ class ActualUniveristy {
         webPages: json["web_pages"] != null
             ? List<String>.from(json["web_pages"].map((x) => x))
             : [],
-        // New fields with defaults
         graduationRate: json["graduationRate"] ?? '',
         employabilityRate: json["employabilityRate"] ?? '',
         retentionRate: json["retentionRate"] ?? '',

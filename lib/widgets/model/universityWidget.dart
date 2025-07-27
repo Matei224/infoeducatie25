@@ -3,9 +3,9 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:studee_app/model/university.dart";
-import "package:studee_app/model/university/univeristy_full.dart";
-import "package:studee_app/model/universityInfoPage.dart";
+import "package:studee_app/data/university.dart";
+import "package:studee_app/data/university/univeristy_full.dart";
+import "package:studee_app/widgets/model/universityInfoPage.dart";
 
 class UniversityWidget extends StatefulWidget {
   const UniversityWidget({super.key, required this.data, this.isCarouselItem = false});

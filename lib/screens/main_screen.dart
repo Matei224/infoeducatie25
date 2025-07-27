@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:studee_app/data/database.dart';
-import 'package:studee_app/model/homeText.dart';
+import 'package:studee_app/widgets/model/homeText.dart';
 import 'package:studee_app/screens/favorites_screen.dart';
 import 'package:studee_app/screens/home_screen.dart';
 import 'package:studee_app/screens/profile.dart';
@@ -69,7 +69,6 @@ class _MainScreenState extends State<MainScreen> {
         onTap: (int index) {
           switch (index) {
             case 0:
-              // only scroll to top when current index is selected.
               if (_selectedIndex == index) {
                 _homeController.animateTo(
                   0.0,

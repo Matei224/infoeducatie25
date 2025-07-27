@@ -3,14 +3,11 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'dart:convert';
 
 void main() async {
-  // Initialize sqflite for desktop
   sqfliteFfiInit();
   final databaseFactory = databaseFactoryFfi;
 
-  // Open the new database
   final newDb = await databaseFactory.openDatabase('final_europe_universities.db');
 
-  // Create the universities table with original and new columns
   await newDb.execute('''
     CREATE TABLE universities (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -79,16 +76,13 @@ void main() async {
     )
   ''');
 
-  // Open the original database
   final originalDb = await databaseFactory.openDatabase('europe_universities.db');
 
-  // Fetch all rows from the original universities table
   final rows = await originalDb.query('universities');
 
-  // Insert each row into the new database, adding new columns with ''
   for (var row in rows) {
     await newDb.insert('universities', {
-      'id': row['id'], // Preserve the original id
+      'id': row['id'], 
       'name': row['name'],
       'city': row['city'],
       'country': row['country'],
@@ -103,7 +97,6 @@ void main() async {
       'data': row['data'],
       'webPages': row['webPages'],
       'alphaTwoCode': row['alphaTwoCode'],
-      // New columns initialized to ''
       'graduationRate': '',
       'employabilityRate': '',
       'retentionRate': '',
@@ -150,7 +143,6 @@ void main() async {
     });
   }
 
-  // Close both databases
   await originalDb.close();
   await newDb.close();
 

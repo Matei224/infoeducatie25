@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:studee_app/model/lineModel.dart';
-import 'package:studee_app/model/profileChangeUniv.dart';
-import 'package:studee_app/model/university/univeristy_full.dart';
-import 'package:studee_app/model/universityWidget.dart';
+import 'package:studee_app/widgets/model/lineModel.dart';
+import 'package:studee_app/widgets/model/profileChangeUniv.dart';
+import 'package:studee_app/data/university/univeristy_full.dart';
+import 'package:studee_app/widgets/model/universityWidget.dart';
 import 'package:studee_app/screens/favorites_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,54 +28,14 @@ class _HomePageState extends State<HomePage> {
     _loadCarouselsData();
   }
 
-  //   Future<void> _loadCarouselsData() async {
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     List<String> searchHistory = prefs.getStringList('searchHistory') ?? [];
-  //     searchHistory = searchHistory.length > 5
-  //         ? searchHistory.sublist(searchHistory.length - 5)
-  //         : searchHistory;
 
-  //     final db = await widget.database;
-  //     final maps = await db.query('universities');
-  //     List<ActualUniveristy> allUnivs = maps.map((map) => ActualUniveristy.fromMap(map)).toList();
 
-  //     List<Map<String, dynamic>> tempCarousels = [];
 
-  //  ActualUniveristy? target;
-  // for (String name in searchHistory) {
-  //   var matchingUnivs = allUnivs.where((univ) => univ.name == name).toList();
-  //   if (matchingUnivs.isNotEmpty) {     target = matchingUnivs.first;
 
-  //   }
-  // }
-  //     // Process search history
 
-  //       if (target != null) {
-  //         List<ActualUniveristy> similarUnivs = await _getMostSimilarUniversities(target, allUnivs);
-  //         tempCarousels.add({
-  //           'university': target,
-  //           'similarUniversities': similarUnivs,
-  //           'type': 'search',
-  //         });
-  //       }
 
-  //     // Fetch favorites from Firestore
-  //     List<ActualUniveristy> favorites = await getFavoriteUniversitiesList();
-  //     // Process favorites
-  //     for (ActualUniveristy favorite in favorites) {
-  //       List<ActualUniveristy> similarUnivs = _getSimilarForFavorite(favorite, allUnivs);
-  //       tempCarousels.add({
-  //         'university': favorite,
-  //         'similarUniversities': similarUnivs,
-  //         'type': 'favorite',
-  //       });
-  //     }
 
-  //     setState(() {
-  //       carouselsData = tempCarousels;
-  //     });
 
-  //   }
 
   Future<List<Map<String, dynamic>>> _loadSearchHistoryCarousels(
     List<ActualUniveristy> allUnivs,
@@ -113,7 +73,6 @@ class _HomePageState extends State<HomePage> {
   Future<List<Map<String, dynamic>>> _loadProfileCarousels(
     List<ActualUniveristy> allUnivs,
   ) async {
-    // Fetch user profile data from Firestore
     final user = FirebaseAuth.instance.currentUser!;
     DocumentSnapshot userDoc =
         await FirebaseFirestore.instance
@@ -129,7 +88,6 @@ class _HomePageState extends State<HomePage> {
       print(subject);
       List<dynamic>? topUnivs = data['topUnivs'] as List<dynamic>?;
 
-      // Carousel for GPA
       if (profileGpa != null) {
         List<ActualUniveristy> gpaMatches =
             allUnivs.where((univ) {
@@ -197,14 +155,13 @@ class _HomePageState extends State<HomePage> {
               campusMapsLocationUrl: '',
               numbeoCrimeUrl: '',
               numbeoSafetyUrl: '',
-            ), // Placeholder university
+            ), 
             'similarUniversities': topGpaUnivs,
             'type': 'profile_gpa',
           });
         }
       }
 
-      // Carousel for Subject
       if (subject != null && subject.isNotEmpty) {
         List<ActualUniveristy> subjectMatches =
             allUnivs.where((univ) {
@@ -276,7 +233,6 @@ class _HomePageState extends State<HomePage> {
         }
       }
 
-      // Carousel for Top Universities
       if (topUnivs != null && topUnivs.length >= 3) {
         for (String univName in topUnivs.take(3)) {
           var matchingUnivs =
@@ -306,7 +262,6 @@ class _HomePageState extends State<HomePage> {
     List<ActualUniveristy> allUnivs =
         maps.map((map) => ActualUniveristy.fromMap(map)).toList();
 
-    // Load carousels concurrently for efficiency
     List<Future<List<Map<String, dynamic>>>> futures = [
       _loadProfileCarousels(allUnivs),
     ];
@@ -373,22 +328,16 @@ class _HomePageState extends State<HomePage> {
   ) {
     int score = 0;
 
-    // Check if countries match
     if (fav.country == other.country) {
       score += 1;
     }
 
-    // Compare undergraduate programs
-    // Split the program strings (e.g., "Transport Technology and Management, Electrical Engineering, etc.")
-    // into sets and find common programs
     Set<String> favPrograms = fav.undergraduateProgrammes.split(', ').toSet();
     Set<String> otherPrograms =
         other.undergraduateProgrammes.split(', ').toSet();
     int commonPrograms = favPrograms.intersection(otherPrograms).length;
     score += commonPrograms;
 
-    // Compare budget text
-    // Split budget text into words, convert to lowercase, and find common words
     Set<String> favBudgetWords =
         fav.averageCostPerYear.toLowerCase().split(' ').toSet();
     Set<String> otherBudgetWords =
@@ -491,7 +440,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(left: 8),
                 child: SizedBox(
                   height:
-                      150, // Matches UniversityWidget height in carousel mode
+                      150, 
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: similarUnivs.length,
@@ -499,10 +448,10 @@ class _HomePageState extends State<HomePage> {
                       ActualUniveristy similarUniv = similarUnivs[idx];
                       return Container(
                         width:
-                            size.width * 0.46, // Fixed width for carousel items
+                            size.width * 0.46, 
                         margin: EdgeInsets.symmetric(
                           horizontal: 6,
-                        ), // Spacing between items
+                        ), 
                         child: UniversityWidget(
                           data: similarUniv,
                           isCarouselItem: true,
@@ -520,8 +469,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// Placeholder function; replace with actual implementation
 String getCurrentUserId() {
-  // Implement this to return the current user's ID from your auth system
   return 'current_user_id';
 }

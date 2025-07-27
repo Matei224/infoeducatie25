@@ -1,5 +1,5 @@
 import 'package:gender_picker/source/enums.dart';
-import 'package:studee_app/model/mood.dart';
+import 'package:studee_app/data/mood.dart';
 
 class ProfileModel {
   ProfileModel({

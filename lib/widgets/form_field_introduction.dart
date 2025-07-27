@@ -22,7 +22,7 @@ class _FormIntroductionState extends State<FormIntroduction> {
       width: size.width * 0.68,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white, width: 1.2),
-        borderRadius: BorderRadius.circular(8.0), // Uniform radius
+        borderRadius: BorderRadius.circular(8.0), 
       ),
       child: TextFormField(
         style: GoogleFonts.raleway(
