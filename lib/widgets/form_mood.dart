@@ -3,9 +3,10 @@ import 'package:studee_app/model/mood.dart';
 import 'package:studee_app/widgets/form_mood_toggle.dart';
 
 class FormMood extends StatefulWidget {
-  FormMood({super.key, required this.setMood});
+  FormMood({super.key, required this.setMood,required this.move});
   Mood? mood;
   void Function(Mood? x) setMood;
+  void Function(bool x) move;
 
   @override
   State<FormMood> createState() => _FormMoodState();
@@ -37,11 +38,13 @@ class _FormMoodState extends State<FormMood> {
           isSelected: selectionsi,
           onPressed: (int index) {
             setState(() {
+                widget.move(true);
               for (int i = 0; i < selectionsi.length; i++) {
                 if (i == index) {
                   widget.mood = moods[i];
                   widget.setMood(moods[i]);
                   selectionsi[i] = true;
+                
                 } else {
                   selectionsi[i] = false;
                 }

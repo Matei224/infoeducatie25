@@ -2,7 +2,8 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/data/universityData.dart';
+import 'package:studee_app/data/database.dart';
+import 'package:studee_app/main.dart';
 
 class FormUniversities extends StatefulWidget {
   FormUniversities({
@@ -39,7 +40,7 @@ class _FormUniversitiesState extends State<FormUniversities> {
         ),
         submitButtonText: 'Save',
         clearButtonText: 'Clear',
-        data: _listOfSubjects,
+        data: names,
         onSelected: (selectedItems) {
           List<String> list = [];
 
@@ -108,6 +109,3 @@ class _FormUniversitiesState extends State<FormUniversities> {
     );
   }
 }
-
-final List<SelectedListItem<String>> _listOfSubjects =
-    uni.map((u) => SelectedListItem<String>(data: u.name)).toList();

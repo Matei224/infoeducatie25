@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:studee_app/data/universityData.dart';
+import 'package:studee_app/data/database.dart';
+import 'package:studee_app/model/homeText.dart';
 import 'package:studee_app/screens/favorites_screen.dart';
+import 'package:studee_app/screens/home_screen.dart';
 import 'package:studee_app/screens/profile.dart';
 import 'package:studee_app/screens/profileData.dart';
 import 'package:studee_app/screens/searchPage.dart';
@@ -129,13 +132,13 @@ class _MainScreenState extends State<MainScreen> {
               if (_selectedIndex == 3) ProfileData(),
               if (_selectedIndex == 1) SearchPage(),
               if (_selectedIndex == 2) FavoritesScreen(favorites: []),
-              if (_selectedIndex == 0) SizedBox(height: size.height * 0.25),
-              if (_selectedIndex == 0)
-                Text(
-                  "Because you searched for United Kingdom",
-                  style: TextStyle(color: Colors.black),
-                ),
-              if (_selectedIndex == 0) UniversityCarousel(universities: uni),
+              if (_selectedIndex == 0)          const SizedBox(height: 20),
+
+              if (_selectedIndex == 0) Center(child: HomeText()),
+
+              if (_selectedIndex == 0) Expanded(child: HomePage(database:DatabaseHelper.instance.database))
+                
+              
             ],
           ),
         ),

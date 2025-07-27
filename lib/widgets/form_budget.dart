@@ -24,6 +24,7 @@ class _FormBudgetState extends State<FormBudget> {
     Budget.medium5k,
     Budget.moreThan10k,
   ];
+  int number = 0;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -48,10 +49,8 @@ class _FormBudgetState extends State<FormBudget> {
                   if (i == index) {
                     widget.setBudget(budget[i]);
                     selections[i] = true;
-                  } else {
-                    selections[i] = false;
-                    widget.setBudget(null);
-                  }
+                    number = i;
+                  } 
                 }
               });
             },
@@ -89,7 +88,6 @@ class _FormBudgetState extends State<FormBudget> {
                     widget.setBudget(null);
                   },
                   decoration: InputDecoration(
-                    hintText: "Your budget",
                     labelText: labelText,
                     suffixText: "\$",
                     suffixStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
@@ -105,7 +103,7 @@ class _FormBudgetState extends State<FormBudget> {
                     if (val == null || val.isEmpty) {
                       return 'Please enter an amount';
                     }
-                    if (val[0] == '0' || isNumeric(val)) {
+                    if (val[0] == '0' || !isNumeric(val)) {
                       return 'Invalid amount';
                     }
                     return null;
@@ -113,6 +111,7 @@ class _FormBudgetState extends State<FormBudget> {
                   onSaved: (newValue) {
                     widget.setBudget(newValue);
                     labelText = newValue!;
+                    selections[number] = false;
                   },
                 ),
               ),

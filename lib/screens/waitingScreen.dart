@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class WaitingScreen extends StatefulWidget {
   final VoidCallback onVerified;
 
-  const WaitingScreen({super.key, required this.onVerified});
+  const WaitingScreen({super.key, required this.onVerified, required Future<Null> Function() onCheckVerification});
 
   @override
   _WaitingScreenState createState() => _WaitingScreenState();

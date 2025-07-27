@@ -6,8 +6,12 @@ import 'package:studee_app/screens/presents/pagewidgetmodal.dart';
 import 'package:studee_app/widgets/form_mood.dart';
 
 class Page8Mood extends StatelessWidget {
-  Page8Mood({super.key, required this.setMood});
+  Page8Mood({super.key, required this.setMood,required this.move});
   void Function(Mood? x) setMood;
+    
+  void Function(bool x) move;
+
+
   @override
   Widget build(BuildContext context) {
     return PageWidgetModal(
@@ -16,7 +20,7 @@ class Page8Mood extends StatelessWidget {
 
       span: "",
       swipe: "Next question",
-      formMood: FormMood(setMood: setMood),
+      formMood: FormMood(setMood: setMood,move: move,),
     );
   }
 }

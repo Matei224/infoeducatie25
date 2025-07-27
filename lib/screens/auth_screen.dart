@@ -5,6 +5,7 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:studee_app/model/google_button.dart';
 import 'package:studee_app/widgets/login.dart';
 import 'package:studee_app/widgets/signup.dart';
 
@@ -31,8 +32,13 @@ class _AuthScreen extends State<AuthScreen> {
   void forgotPassword() async {
     final isValid = _form.currentState!.validate();
     if (isValid) {
+          _form.currentState!.save();
+
       try {
-        await _firebase.sendPasswordResetEmail(email: enteredEmail);
+        await _firebase.sendPasswordResetEmail(email: enteredEmail.trim());
+          ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Reset link has been sent.')));
       } on FirebaseAuthException catch (err) {
         throw Exception(err.message.toString());
       } catch (err) {
@@ -46,8 +52,42 @@ class _AuthScreen extends State<AuthScreen> {
   }
 
 
+void _signInWithGoogle() async {
+  try {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) {
+      return;
+    }
 
-  
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+    final User? user = userCredential.user;
+
+    if (user != null) {
+      final userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      
+      if (!userDoc.exists) {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'email': user.email,
+          'username': user.displayName ?? 'User_${user.uid.substring(0, 5)}',
+          'onboardingCompleted': false, 
+        });
+        firstSignUp(); 
+      }
+    }
+  } catch (e) {
+    print('Error signing in with Google: $e');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to sign in with Google: $e')),
+    );
+  }
+}
+
   final _form = GlobalKey<FormState>();
 
   @override
@@ -179,6 +219,7 @@ class _AuthScreen extends State<AuthScreen> {
     //Sign up data
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -207,14 +248,19 @@ class _AuthScreen extends State<AuthScreen> {
                   ),
                   child:
                       isLogin
-                          ? LoginForm(
-                            resetPassword: forgotPassword,
-                            form: _form,
-                            submit: submit,
-                            isLogin: isLogin,
-                            onPressedok: signUp,
-                            getterEmail: getterEmail,
-                            getterPassword: getterPassword,
+                          ? Column(
+                            children: [
+                              LoginForm(
+                                resetPassword: forgotPassword,
+                                form: _form,
+                                submit: submit,
+                                isLogin: isLogin,
+                                onPressedok: signUp,
+                                getterEmail: getterEmail,
+                                getterPassword: getterPassword,
+                              ),
+                              GoogleButton(func:_signInWithGoogle)
+                            ],
                           )
                           : SignUpForm(
                             isLogin: isLogin,

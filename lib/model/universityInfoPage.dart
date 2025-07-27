@@ -1,15 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/model/academicsTab.dart';
-import 'package:studee_app/model/admissionsTab.dart';
-import 'package:studee_app/model/campusTab.dart';
-import 'package:studee_app/model/costsTab.dart';
-import 'package:studee_app/model/university.dart'; // Assuming University model is here
+import 'package:studee_app/model/tabs/academicsTab.dart';
+import 'package:studee_app/model/tabs/admissionsTab.dart';
+import 'package:studee_app/model/tabs/campusTab.dart';
+import 'package:studee_app/model/tabs/costsTab.dart';
+import 'package:studee_app/model/university.dart';
+import 'package:studee_app/model/university/univeristy_full.dart'; // Assuming University model is here
 
 class UniversityDetailScreen extends StatefulWidget {
-  final University university;
+  final ActualUniveristy university;
 
   const UniversityDetailScreen({super.key, required this.university});
 
@@ -94,34 +96,44 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                     // Background image with logo
                     Stack(
                       children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(15),
-                          ),
+                        widget.university.urlImage != null &&
+                                widget.university.urlImage != '' &&
+                                widget.university.urlImage != ' '
+                            ? ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(15),
+                              ),
 
-                          child: Image.network(
-                            "https://images.unsplash.com/20/cambridge.JPG?q=80&w=1447&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                            fit: BoxFit.cover,
-                            height: 230,
-                            width: double.infinity,
-                          ),
-                        ),
+                              child: Container(
+                                height: 230,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: CachedNetworkImageProvider(
+                                      widget.university.urlImage!,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            )
+                            : ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(15),
+                              ),
+
+                              child: Image.asset(
+                                'assets/images/nophoto.jpg',
+                                fit: BoxFit.cover,
+                                height: 230,
+                                width: double.infinity,
+                              ),
+                            ),
+
                         Positioned(
                           bottom: 10,
                           left: 10,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 1),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                            ),
-                            child: Image.network(
-                              'https://plus.unsplash.com/premium_photo-1669075651862-5fb8cdda46e3?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dW5pdmVyc2l0eSUyMGxvZ298ZW58MHx8MHx8fDA%3D', // Replace with actual logo path
-                              width: 60,
-                              height: 60,
-                            ),
-                          ),
+                          child: Text(widget.university.abreviation),
                         ),
                       ],
                     ),
@@ -138,9 +150,9 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.university.fullName == null
+                                  widget.university.name == null
                                       ? ' '
-                                      : widget.university.fullName!,
+                                      : widget.university.name!,
 
                                   style: GoogleFonts.poppins(
                                     fontSize: 18,
@@ -151,14 +163,6 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
 
                                 Row(
                                   children: [
-                                    Text(
-                                      "${widget.university.city}, ",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-                                    ),
                                     Text(
                                       widget.university.country,
                                       style: GoogleFonts.poppins(
@@ -206,25 +210,73 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                       length: 4,
                       child: Column(
                         children: [
-                          const TabBar(
+                          TabBar(
                             tabs: [
-                              Tab(text: 'Academics'),
-                              Tab(text: 'Costs'),
-                              Tab(text: 'Admissions'),
-                              Tab(text: 'Campus'),
+                              Tab(
+                                child: Text(
+                                  'Academic',
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 12,
+                                    color: Color.fromARGB(255, 115, 0, 255),
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  'Costs',
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 12,
+                                    color: Color.fromARGB(255, 200, 255, 0),                                        
+                                fontWeight: FontWeight.bold
+
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  'Admission',
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 11,
+                                    color: Color.fromARGB(255, 255, 81, 0),                                    
+                                    fontWeight: FontWeight.bold
+
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  'Campus',
+                                  style: GoogleFonts.raleway(
+                                    fontSize: 12,
+                                    color: Color.fromARGB(255, 255, 132, 177),                                   
+                                    fontWeight: FontWeight.bold
+
+                                  ),
+                                ),
+                              ),
                             ],
-                            labelColor: Colors.black,
-                            unselectedLabelColor: Colors.grey,
+                            labelColor:
+                                Colors
+                                    .black, // Default selected color (overridden by individual styles)
+                            unselectedLabelStyle: GoogleFonts.raleway(
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                            indicatorWeight: 4.0,
+                            unselectedLabelColor:
+                                Colors
+                                    .grey, // Default unselected color (overridden by individual styles)
                           ),
                           SizedBox(
-                            height: 300, // Adjust height as needed
+                            height: size.width*0.8, // Adjust height as needed
                             child: TabBarView(
                               children: [
                                 // Academics tab content
                                 AcademicsTab(university: widget.university),
-                                CostsTab(),
-                                AdmissionsTab(),
-                                CampusTab(),
+                                CostsTab(university: widget.university),
+                                AdmissionsTab(university: widget.university),
+                                CampusTab(university: widget.university),
                               ],
                             ),
                           ),

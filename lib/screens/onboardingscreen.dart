@@ -15,8 +15,8 @@ import 'package:studee_app/screens/presents/pages/page8.dart';
 import 'package:studee_app/screens/presents/pages/page9.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  OnboardingScreen({super.key, required this.done});
-  void Function() done;
+  OnboardingScreen({super.key});
+
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
@@ -48,8 +48,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       Page5Univ(setUnivs: person.setUnivs, form: _form4),
       Page6GPA(setGPA: person.setGPA),
       Page7Budget(form: _form5, setBudget: person.setBudget),
-      Page8Mood(setMood: person.setMood),
+      Page8Mood(setMood: person.setMood, move: move),
     ];
+  }
+  bool finish = false;
+
+  void move(bool x) {
+    x = true;
+    finish = true;
   }
 
   final _form1 = GlobalKey<FormState>();
@@ -69,6 +75,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         'lastName': person.lastName.toString(),
         'topUnivs': FieldValue.arrayUnion(person.chosenUniversities!),
         'subject': person.mySubjectOfInterest,
+        'onboardingCompleted': true,
       }, SetOptions(merge: true));
       print('Data uploaded successfully');
     } catch (e) {
@@ -88,16 +95,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
       case 1:
         FormState? exist = _form1.currentState;
-        bool isValid = _form1.currentState!.validate();
-        if (isValid) {
-          _form1.currentState!.save();
-          print('${person.lastName}');
-          print('${person.firstName}');
+        if (exist != null) {
+          bool isValid = _form1.currentState!.validate();
+          if (isValid) {
+            _form1.currentState!.save();
+            print('${person.lastName}');
+            print('${person.firstName}');
 
-          if (currentPage < totalPages - 1) {
-            setState(() {
-              currentPage++;
-            });
+            if (currentPage < totalPages - 1) {
+              setState(() {
+                currentPage++;
+              });
+            }
           }
         }
         break;
@@ -114,12 +123,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
       case 3:
         FormState? exist = _form2.currentState;
-        bool isValid = _form2.currentState!.validate();
-        if (isValid) {
-          if (currentPage < totalPages - 1) {
-            setState(() {
-              currentPage++;
-            });
+        if (exist != null) {
+          bool isValid = _form2.currentState!.validate();
+          if (isValid) {
+            if (currentPage < totalPages - 1) {
+              setState(() {
+                currentPage++;
+              });
+            }
           }
         }
         break;
@@ -160,7 +171,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             currentPage++;
           });
         }
-
         break;
 
       case 7:
@@ -184,20 +194,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             });
           }
         }
-
         break;
 
       case 8:
-        if (currentPage == totalPages - 1) {
-          setState(() {
-            uploadData();
-            widget.done();
-          });
+        if (finish == true) {
+          uploadData();
+          // No need to increment currentPage or call widget.done()
+          // StreamBuilder will handle the transition to MainScreen
         }
-        uploadData();
-        widget.done();
-        print('${person.mood}');
-
         break;
     }
   }
@@ -207,6 +211,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     Size size = MediaQuery.of(context).size;
     print('Current page : $currentPage');
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromARGB(255, 115, 0, 255),
       body: Row(
         children: [
@@ -230,9 +235,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   // The animated circle
                   AnimatedPositioned(
                     duration: Duration(milliseconds: 300),
-                    top:
-                        (currentPage / (totalPages - 1)) *
-                        (size.height * 0.8 - 20),
+                    top: (currentPage / (totalPages - 1)) * (size.height * 0.8 - 20),
                     left: 0,
                     child: Container(
                       width: 20,
@@ -271,14 +274,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
+                      padding: const EdgeInsets.only(bottom: 0.0),
                       child: GestureDetector(
                         onPanUpdate: (e) {
                           if (e.delta.dy < -10) {
                             nextPage();
                           }
                         },
-
                         child: const Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [

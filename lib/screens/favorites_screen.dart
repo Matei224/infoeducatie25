@@ -3,16 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studee_app/model/favoritesWidget.dart';
 import 'package:studee_app/model/university.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:studee_app/model/university/univeristy_full.dart';
 
 class FavoritesScreen extends StatefulWidget {
   FavoritesScreen({super.key, required this.favorites});
-  List<University> favorites;
+  List<ActualUniveristy> favorites;
   @override
   State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  Stream<List<University>> getFavoriteUniversitiesStream() {
+  Stream<List<ActualUniveristy>> getFavoriteUniversitiesStream() {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       return Stream.value([]);
@@ -31,7 +33,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               final universitiesData = data['universities'] as List<dynamic>;
               return universitiesData
                   .map(
-                    (data) => University.fromMap(data as Map<String, dynamic>),
+                    (data) => ActualUniveristy.fromMap(data as Map<String, dynamic>),
                   )
                   .toList();
             }
@@ -42,15 +44,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Expanded(
-      child: StreamBuilder<List<University>>(
+      child: StreamBuilder<List<ActualUniveristy>>(
         stream: getFavoriteUniversitiesStream(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) { 
             return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          } else if (snapshot.hasError) { 
+            return Center(child: Text('Error: ${snapshot.error}',style: TextStyle(color: Colors.black ,fontSize: 30),));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) { 
             return const Center(
               child: Text(
                 'No favorite universities found.',
@@ -60,10 +63,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           } else {
             final favorites = snapshot.data!;
             return GridView.count(
+              mainAxisSpacing: size.width*0.1,
               crossAxisCount: 2,
               children: List.generate(favorites.length, (index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 26),
+                  padding:  EdgeInsets.symmetric(horizontal:size.width*0.05),
                   child: FavoritesWidget(favorite: favorites[index]),
                 );
               }),
@@ -72,5 +76,35 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         },
       ),
     );
+  }
+}
+ Future<List<ActualUniveristy>> getFavoriteUniversitiesList() async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    return [];
+  }
+  final uid = user.uid;
+  try {
+    final doc = await FirebaseFirestore.instance
+        .collection('favorites')
+        .doc(uid)
+        .get();
+    if (doc.exists) {
+      final data = doc.data();
+      if (data != null &&
+          data.containsKey('universities') &&
+          data['universities'] is List) {
+        final universitiesData = data['universities'] as List<dynamic>;
+        return universitiesData
+            .map(
+              (data) => ActualUniveristy.fromMap(data as Map<String, dynamic>),
+            )
+            .toList();
+      }
+    }
+    return [];
+  } catch (e) {
+    print('Error fetching favorites: $e');
+    return [];
   }
 }

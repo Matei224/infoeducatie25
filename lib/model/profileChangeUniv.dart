@@ -3,6 +3,7 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:studee_app/main.dart';
 
 class ProfileUniv extends StatefulWidget {
   ProfileUniv({super.key, required this.univ, required this.index});
@@ -57,11 +58,11 @@ class _ProfileUnivState extends State<ProfileUniv> {
         isDismissible: true,
         bottomSheetTitle: const Text(
           'Select',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0,color: Colors.black),
         ),
         submitButtonText: 'Save',
         clearButtonText: 'Clear',
-        data: _listOfSubjects,
+        data: names,
         onSelected: (selectedItems) {
           String newUniv =
               selectedItems.isNotEmpty ? selectedItems[0].data : "";
@@ -108,7 +109,7 @@ class _ProfileUnivState extends State<ProfileUniv> {
           Positioned(
             child: Align(
               alignment: Alignment.center,
-              child: Text(widget.univ, style: TextStyle(color: Colors.black)),
+              child: Text(generateAbbreviation(widget.univ), style: TextStyle(color: Colors.black)),
             ),
           ),
         ],
@@ -116,18 +117,13 @@ class _ProfileUnivState extends State<ProfileUniv> {
     );
   }
 }
-
-final List<SelectedListItem<String>> _listOfSubjects = [
-  SelectedListItem<String>(data: 'kTokyo'),
-  SelectedListItem<String>(data: 'kNewYork'),
-  SelectedListItem<String>(data: 'kLondon'),
-  SelectedListItem<String>(data: 'kParis'),
-  SelectedListItem<String>(data: 'kMadrid'),
-  SelectedListItem<String>(data: 'kDubai'),
-  SelectedListItem<String>(data: 'kRome'),
-  SelectedListItem<String>(data: 'kBarcelona'),
-  SelectedListItem<String>(data: 'kCologne'),
-  SelectedListItem<String>(data: 'kMonteCarlo'),
-  SelectedListItem<String>(data: 'kPuebla'),
-  SelectedListItem<String>(data: 'kFlorence'),
-];
+  String generateAbbreviation(String name) {
+    List<String> words = name.split(' ');
+    String abbreviation = '';
+    for (String word in words) {
+      if (word.isNotEmpty && word[0] == word[0].toUpperCase()) {
+        abbreviation += word[0];
+      }
+    }
+    return abbreviation;
+  }

@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "studee_app",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"cmake.sourceDirectory": "C:/Flutter/flutter_projects/studee_app/linux"
+	}
+}

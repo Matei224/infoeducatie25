@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:studee_app/data/universityData.dart';
+import 'package:studee_app/data/database.dart';
+import 'package:studee_app/main.dart';
 import 'package:studee_app/model/filterchipitem.dart';
 import 'package:studee_app/widgets/filtering/filterchipdropdown.dart';
 
@@ -36,30 +37,19 @@ class _FilterRowState extends State<FilterRow> {
             widget.onSelectLocation(selected);
           },
           items:
-              uni
-                  .map((u) => u.country)
-                  .toSet()
-                  .map(
-                    (country) => FilterChipItem(label: country, value: country),
-                  )
-                  .toList(),
+             countriesFilter!,
 
           //FilterChipItem(label: "A very long option", value: "long_option")
         ),
         FilterChipDropdown(
-          initialLabel: 'Degree',
+          initialLabel: 'Budget',
           leading: Icon(Icons.holiday_village),
           onSelectionChanged: (selected) {
             widget.onSelectDegree(selected);
           },
           items:
-              uni
-                  .map((u) => u.degree)
-                  .toSet()
-                  .map(
-                    (country) => FilterChipItem(label: country, value: country),
-                  )
-                  .toList(),
+                           budgetFilter,
+
 
           //FilterChipItem(label: "A very long option", value: "long_option")
         ),
@@ -70,13 +60,7 @@ class _FilterRowState extends State<FilterRow> {
             widget.onSelectProgramme(selected);
           },
           items:
-              uni
-                  .map((u) => u.programme)
-                  .toSet()
-                  .map(
-                    (country) => FilterChipItem(label: country, value: country),
-                  )
-                  .toList(),
+            programmeFilter,
         ),
       ],
     );
