@@ -46,35 +46,7 @@ class _AuthScreen extends State<AuthScreen> {
   }
 
 
-Future<void> _signInWithGoogle() async {
-  final googleUser = GoogleSignIn()
-    try {
-      if (googleUser == null) {
-        return; // User canceled the sign-in
-      }
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-      if (userCredential.additionalUserInfo?.isNewUser ?? false) {
-        final user = userCredential.user;
-        if (user != null) {
-          await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-            'email': user.email,
-            'username': user.displayName ?? 'User_${user.uid.substring(0, 5)}',
-          });
-          firstSignUp(); // Notify parent widget, consistent with signup
-        }
-      }
-    } catch (e) {
-      print('Error signing in with Google: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to sign in with Google.')),
-      );
-    }
-  }
+
   
   final _form = GlobalKey<FormState>();
 
