@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/model/dataTextModel.dart';
-import 'package:studee_app/model/university/univeristy_full.dart';
-import 'package:studee_app/model/url_link.dart';
+import 'package:studee_app/widgets/model/dataTextModel.dart';
+import 'package:studee_app/data/university/univeristy_full.dart';
+import 'package:studee_app/widgets/model/url_link.dart';
 
 class CostsTab extends StatelessWidget {
   CostsTab({super.key, required this.university});
@@ -16,13 +16,16 @@ class CostsTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Title
 
+            // Description (kept as is since the task focuses on updating fields below)
             Text(
               'Information about the application process, requirements, and deadlines will be here.',
               style: GoogleFonts.poppins(fontSize: 14, color: Colors.black),
               textAlign: TextAlign.justify,
             ),
-            const SizedBox(height: 20), 
+            const SizedBox(height: 20), // Spacing before fields
+            // Field: Average cost per Year
             Row(
               children: [
                 Icon(Icons.attach_money),
@@ -39,6 +42,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Students Receiving Financial Aid percentage
             Row(
               children: [
                 Icon(Icons.school),
@@ -54,6 +58,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Opened Financial Aid Application date
             Row(
               children: [
                 Icon(Icons.calendar_today),
@@ -69,6 +74,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Housing Found Rate by students
             Row(
               children: [
                 Icon(Icons.home),
@@ -84,6 +90,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Housing price per year
             Row(
               children: [
                 Icon(Icons.monetization_on),
@@ -100,6 +107,7 @@ class CostsTab extends StatelessWidget {
 
             const SizedBox(height: 10),
 
+            // Field: Taxes cost per year
             Row(
               children: [
                 Icon(Icons.account_balance),
@@ -115,6 +123,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Supplies cost per year
             Row(
               children: [
                 Icon(Icons.book),
@@ -130,6 +139,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Description of life in the city of university
             Row(
               children: [
                 Icon(Icons.info),
@@ -145,6 +155,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Costs page university website
             Row(
               children: [
                 Icon(Icons.web),
@@ -167,6 +178,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Maps location link
             Row(
               children: [
                 Icon(Icons.map),
@@ -189,6 +201,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Link to Numbeo for property prices
             Row(
               children: [
                 Icon(Icons.house),
@@ -213,6 +226,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Link to Numbeo for goods and services
             Row(
               children: [
                 Icon(Icons.shopping_cart),
@@ -238,6 +252,7 @@ class CostsTab extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
+            // Field: Link to Numbeo for food prices
             Row(
               children: [
                 Icon(Icons.restaurant),

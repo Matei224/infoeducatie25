@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:studee_app/model/university_data.dart';
+import 'package:studee_app/data/university_data.dart';
 import 'dart:async';
 
 import 'package:studee_app/services/api_services.dart';
 
+// API key for OpenRouter
 final apiKey = 'not';
 
 
@@ -38,6 +39,7 @@ final apiKey = 'not';
     throw Exception('Failed to get repsonse : ${response.body}');
   }
 }
+// Questionnaire template
 const String questionnaire = '''
 **Academics category**
 -Graduation rate:
@@ -92,27 +94,36 @@ const String questionnaire = '''
 -Link to numbeo website for that city of university with safety:
 ''';
 
+// Fetch response from OpenRouter API
 
+// Main function to update the database
 void main() async {
  
   
   var i=0;
+  // Process each university
  
 
    
+      // Construct the prompt
       final prompt = "Search on https://www.epfl.ch/en/ and École polytechnique other websites relevant to  and complete this questionnaire in English only with the actual data required after ':' ; $questionnaire";
 
+      // Get and parse the API response
       final response = await getOpenRouterResponse(prompt);
       final data = parseData1(response);
+      // Create structured objects
       final academics = createAcademics(data["Academics category"] ?? {});
       final costs = createCosts(data["Costs category"] ?? {});
       final life = createLife(data["Life category"]?? {});
       final admissions = createAdmissions(data["Admissions category"] ?? {});
       final campus = createCampus(data["Campus category"] ?? {});
 
+      // Prepare update values
       print(life.numbeoFoodPricesUrl);
     
+    // Delay to respect API rate limits
  
 
+  // Close the database
   print('Database update completed.');
 }

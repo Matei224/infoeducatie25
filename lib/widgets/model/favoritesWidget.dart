@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/model/university.dart';
-import 'package:studee_app/model/university/univeristy_full.dart';
-import 'package:studee_app/model/universityInfoPage.dart';
+import 'package:studee_app/data/university.dart';
+import 'package:studee_app/data/university/univeristy_full.dart';
+import 'package:studee_app/widgets/model/universityInfoPage.dart';
 
 class FavoritesWidget extends StatefulWidget {
   FavoritesWidget({super.key, required this.favorite});
@@ -20,16 +20,19 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
     final user = FirebaseAuth.instance.currentUser;
     final favoriteUniv = widget.favorite.toMap();
     
-      await FirebaseFirestore.instance
-          .collection('favorites')
-          .doc(user!.uid)
-          .update({
-            'universities': FieldValue.arrayRemove([favoriteUniv]),
-          });
-      setState(() {
-        isBookMarked = false;
-        color = Colors.black;
-      });
+      final docRef = FirebaseFirestore.instance.collection('favorites').doc(user!.uid);
+final doc = await docRef.get();
+if (doc.exists) {
+  List<dynamic> universities = List.from(doc.data()?['universities'] ?? []);
+  if (universities.isNotEmpty) {
+    universities.removeAt(0);
+    await docRef.update({'universities': universities});
+  }
+}
+setState(() {
+  isBookMarked = false;
+  color = Colors.black;
+});
      
     
   }
@@ -57,6 +60,7 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
+          // purple offset background
           Positioned(
             top: 8,
             left: 8,
@@ -70,6 +74,7 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
             ),
           ),
 
+          // main white card
           Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -79,6 +84,7 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // top image
                 GestureDetector(
                   onTap:
                       () => navigateToUniversityInfo(context, widget.favorite),
@@ -97,6 +103,7 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
                   ),
                 ),
 
+                // text + icon row
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -112,6 +119,7 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          // title + subtitle
                           Text(
                             widget.favorite.name,
                             style: GoogleFonts.poppins(
@@ -148,10 +156,10 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
                                       255,
                                       251,
                                       238,
-                                    ), 
+                                    ), // Orange background for text
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
-                                      color: Colors.black, 
+                                      color: Colors.black, // Orange border
                                       width: 1.5,
                                     ),
                                   ),
@@ -168,6 +176,7 @@ class _FavoritesWidgetState extends State<FavoritesWidget> {
                             ),
                           ),
 
+                          // bookmark icon
                         ],
                       ),
                     ),

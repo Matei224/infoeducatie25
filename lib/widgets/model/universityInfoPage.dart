@@ -3,12 +3,42 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:studee_app/model/tabs/academicsTab.dart';
-import 'package:studee_app/model/tabs/admissionsTab.dart';
-import 'package:studee_app/model/tabs/campusTab.dart';
-import 'package:studee_app/model/tabs/costsTab.dart';
-import 'package:studee_app/model/university.dart';
-import 'package:studee_app/model/university/univeristy_full.dart'; 
+import 'package:studee_app/widgets/animationWidget.dart';
+import 'package:studee_app/widgets/model/tabs/academicsTab.dart';
+import 'package:studee_app/widgets/model/tabs/admissionsTab.dart';
+import 'package:studee_app/widgets/model/tabs/campusTab.dart';
+import 'package:studee_app/widgets/model/tabs/costsTab.dart';
+import 'package:studee_app/data/university.dart';
+import 'package:studee_app/data/university/univeristy_full.dart';
+import 'dart:async';
+
+// Custom widget to handle dynamic tab text styling
+class SelectedText extends StatelessWidget {
+  final String text;
+  final int index;
+  final Color selectedColor;
+  final TabController tabController;
+
+  const SelectedText({
+    required this.text,
+    required this.index,
+    required this.selectedColor,
+    required this.tabController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    bool isSelected = tabController.index == index;
+    return Text(
+      text,
+      style: GoogleFonts.raleway(
+        fontSize: isSelected ? 12 : 10,
+        color: isSelected ? selectedColor : Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
 
 class UniversityDetailScreen extends StatefulWidget {
   final ActualUniveristy university;
@@ -19,16 +49,61 @@ class UniversityDetailScreen extends StatefulWidget {
   State<UniversityDetailScreen> createState() => _UniversityDetailScreenState();
 }
 
-class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
+class _UniversityDetailScreenState extends State<UniversityDetailScreen> with TickerProviderStateMixin {
   bool isBookMarked = false;
+  Color color = Colors.black;
+  bool showAnimation = false;
+  String? currentAnimationFile;
+  late TabController tabController;
+  Timer? animationTimer;
+  final List<Color> tabColors = [
+    Color.fromARGB(255, 115, 0, 255), // Academic
+    Color.fromARGB(255, 200, 255, 0),  // Costs
+    Color.fromARGB(255, 255, 81, 0),   // Admission
+    Color.fromARGB(255, 255, 132, 177), // Campus
+  ];
 
-  void toggleBookmark() {
+  Color currentIndicatorColor = Color.fromARGB(255, 115, 0, 255);
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 4, vsync: this);
+    tabController.addListener(_handleTabChange);
+    _handleTabChange();
+  }
+
+  void _handleTabChange() {
+    if (tabController.index == 0 || tabController.index == 1) {
+      currentAnimationFile = 'assets/animations/studee_toki.riv';} else {
+      currentAnimationFile = 'assets/animations/studee_juno.riv';
+    }
+    
+
     setState(() {
-      isBookMarked = !isBookMarked;
+      showAnimation = true;
+      currentIndicatorColor = tabColors[tabController.index];
+    });
+
+    animationTimer?.cancel();
+
+    animationTimer = Timer(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          showAnimation = false;
+        });
+      }
     });
   }
 
-  Color color = Colors.black;
+  @override
+  void dispose() {
+    tabController.removeListener(_handleTabChange);
+    tabController.dispose();
+    animationTimer?.cancel();
+    super.dispose();
+  }
+
   void toggleFavorites() async {
     final user = FirebaseAuth.instance.currentUser;
     final favoriteUniv = widget.university.toMap();
@@ -43,9 +118,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
         isBookMarked = true;
         color = Colors.amber;
       });
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Added to favorites!')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Added to favorites!')));
     } else {
       await FirebaseFirestore.instance
           .collection('favorites')
@@ -57,9 +130,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
         isBookMarked = false;
         color = Colors.black;
       });
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Removed from favorites!')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Removed from favorites!')));
     }
   }
 
@@ -67,11 +138,10 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(color: Color.fromARGB(255, 255, 251, 238)),
-
-        child: Center(
-          child: Column(
+      backgroundColor: const Color.fromARGB(255, 255, 251, 238),
+      body: Stack(
+        children: [
+          Column(
             children: [
               SafeArea(
                 top: true,
@@ -83,7 +153,6 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(25),
-
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -91,7 +160,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Icon(Icons.arrow_back, size: 20),
+                      icon: const Icon(Icons.arrow_back, size: 20),
                     ),
                     Stack(
                       children: [
@@ -99,36 +168,27 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                                 widget.university.urlImage != '' &&
                                 widget.university.urlImage != ' '
                             ? ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(15),
-                              ),
-
-                              child: Container(
-                                height: 230,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
-                                      widget.university.urlImage!,
+                                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                child: Container(
+                                  height: 230,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: CachedNetworkImageProvider(widget.university.urlImage!),
+                                      fit: BoxFit.cover,
                                     ),
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ),
-                            )
+                              )
                             : ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(15),
+                                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                child: Image.asset(
+                                  'assets/images/nophoto.jpg',
+                                  fit: BoxFit.cover,
+                                  height: 230,
+                                  width: double.infinity,
+                                ),
                               ),
-
-                              child: Image.asset(
-                                'assets/images/nophoto.jpg',
-                                fit: BoxFit.cover,
-                                height: 230,
-                                width: double.infinity,
-                              ),
-                            ),
-
                         Positioned(
                           bottom: 10,
                           left: 10,
@@ -148,17 +208,13 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.university.name == null
-                                      ? ' '
-                                      : widget.university.name!,
-
+                                  widget.university.name ?? ' ',
                                   style: GoogleFonts.poppins(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
                                 ),
-
                                 Row(
                                   children: [
                                     Text(
@@ -175,24 +231,14 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(
-                                255,
-                                255,
-                                251,
-                                238,
-                              ), 
+                              color: const Color.fromARGB(255, 255, 251, 238),
                               borderRadius: BorderRadius.circular(14),
-                              border: Border.all(
-                                color: Colors.black, 
-                                width: 1.5,
-                              ),
+                              border: Border.all(color: Colors.black, width: 1.5),
                             ),
-
                             child: GestureDetector(
                               onTap: toggleFavorites,
-
                               child: Icon(
                                 Icons.bookmark_border,
                                 color: color,
@@ -203,88 +249,83 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> {
                         ],
                       ),
                     ),
-                    DefaultTabController(
-                      length: 4,
-                      child: Column(
-                        children: [
-                          TabBar(
-                            tabs: [
-                              Tab(
-                                child: Text(
-                                  'Academic',
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 12,
-                                    color: Color.fromARGB(255, 115, 0, 255),
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
+                    Column(
+                      children: [
+                        TabBar(
+                          indicatorColor: currentIndicatorColor,
+                          controller: tabController,
+                          tabs: [
+                            Tab(
+                              child: SelectedText(
+                                text: 'Academic',
+                                index: 0,
+                                selectedColor: tabColors[0],
+                                tabController: tabController,
                               ),
-                              Tab(
-                                child: Text(
-                                  'Costs',
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 12,
-                                    color: Color.fromARGB(255, 200, 255, 0),                                        
-                                fontWeight: FontWeight.bold
-
-                                  ),
-                                ),
+                            ),
+                            Tab(
+                              child: SelectedText(
+                                text: 'Costs',
+                                index: 1,
+                                selectedColor: tabColors[1],
+                                tabController: tabController,
                               ),
-                              Tab(
-                                child: Text(
-                                  'Admission',
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 11,
-                                    color: Color.fromARGB(255, 255, 81, 0),                                    
-                                    fontWeight: FontWeight.bold
-
-                                  ),
-                                ),
+                            ),
+                            Tab(
+                              child: SelectedText(
+                                text: 'Admision',
+                                index: 2,
+                                selectedColor: tabColors[2],
+                                tabController: tabController,
                               ),
-                              Tab(
-                                child: Text(
-                                  'Campus',
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 12,
-                                    color: Color.fromARGB(255, 255, 132, 177),                                   
-                                    fontWeight: FontWeight.bold
-
-                                  ),
-                                ),
+                            ),
+                            Tab(
+                              child: SelectedText(
+                                text: 'Campus',
+                                index: 3,
+                                selectedColor: tabColors[3],
+                                tabController: tabController,
                               ),
+                            ),
+                          ],
+                          labelColor: Colors.black,
+                          unselectedLabelStyle: GoogleFonts.raleway(
+                            fontSize: 12,
+                            color: Colors.black,
+                          ),
+                          indicatorWeight: 4.0,
+                          unselectedLabelColor: Colors.grey,
+                        ),
+                        SizedBox(
+                          height: size.width * 0.8,
+                          child: TabBarView(
+                            controller: tabController,
+                            children: [
+                              AcademicsTab(university: widget.university),
+                              CostsTab(university: widget.university),
+                              AdmissionsTab(university: widget.university),
+                              CampusTab(university: widget.university),
                             ],
-                            labelColor:
-                                Colors
-                                    .black, 
-                            unselectedLabelStyle: GoogleFonts.raleway(
-                              fontSize: 12,
-                              color: Colors.black,
-                            ),
-                            indicatorWeight: 4.0,
-                            unselectedLabelColor:
-                                Colors
-                                    .grey, 
                           ),
-                          SizedBox(
-                            height: size.width*0.8, 
-                            child: TabBarView(
-                              children: [
-                                AcademicsTab(university: widget.university),
-                                CostsTab(university: widget.university),
-                                AdmissionsTab(university: widget.university),
-                                CampusTab(university: widget.university),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
             ],
           ),
-        ),
+          if (showAnimation && currentAnimationFile != null)
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: size.height * 0.2,
+                child: AnimationWidge(text: currentAnimationFile!),
+              ),
+            ),
+        ],
       ),
     );
   }

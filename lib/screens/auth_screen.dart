@@ -5,7 +5,7 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:studee_app/model/google_button.dart';
+import 'package:studee_app/widgets/model/google_button.dart';
 import 'package:studee_app/widgets/login.dart';
 import 'package:studee_app/widgets/signup.dart';
 
@@ -112,7 +112,7 @@ void _signInWithGoogle() async {
       return methods.isNotEmpty;
     } catch (e) {
       print('Error checking email: $e');
-      return null; 
+      return null; // Indicates an error occurred
     }
   }
 
@@ -216,6 +216,7 @@ void _signInWithGoogle() async {
     Size size = MediaQuery.of(context).size;
     double widthScreen = size.width;
 
+    //Sign up data
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

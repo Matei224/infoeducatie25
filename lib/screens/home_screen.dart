@@ -37,38 +37,37 @@ class _HomePageState extends State<HomePage> {
 
 
 
-  Future<List<Map<String, dynamic>>> _loadSearchHistoryCarousels(
-    List<ActualUniveristy> allUnivs,
-  ) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> searchHistory = prefs.getStringList('searchHistory') ?? [];
-    searchHistory =
-        searchHistory.length > 5
-            ? searchHistory.sublist(searchHistory.length - 5)
-            : searchHistory;
+Future<List<Map<String, dynamic>>> _loadSearchHistoryCarousels(
+  List<ActualUniveristy> allUnivs,
+) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String> searchHistory = prefs.getStringList('searchHistory') ?? [];
+  searchHistory = searchHistory.length > 5
+      ? searchHistory.sublist(searchHistory.length - 5)
+      : searchHistory;
 
-    List<Map<String, dynamic>> searchCarousels = [];
-    ActualUniveristy? target;
-    for (String name in searchHistory) {
-      var matchingUnivs = allUnivs.where((univ) => univ.name == name).toList();
-      if (matchingUnivs.isNotEmpty) {
-        target = matchingUnivs.first;
-      }
+  List<Map<String, dynamic>> searchCarousels = [];
+  ActualUniveristy? target;
+  for (String name in searchHistory) {
+    var matchingUnivs = allUnivs.where((univ) => univ.name.contains(name)).toList();
+    if (matchingUnivs.isNotEmpty) {
+      target = matchingUnivs.first;
     }
-    if (target != null) {
-      Future<List<ActualUniveristy>> similarUnivs = _getMostSimilarUniversities(
-        target,
-        allUnivs,
-      );
-      searchCarousels.add({
-        'university': target,
-        'similarUniversities': similarUnivs,
-        'type': 'search',
-      });
-    }
-
-    return searchCarousels;
   }
+  if (target != null) {
+    List<ActualUniveristy> similarUnivs = _getMostSimilarUniversities(
+      target,
+      allUnivs,
+    );
+    searchCarousels.add({
+      'university': target,
+      'similarUniversities': similarUnivs,
+      'type': 'search',
+    });
+  }
+
+  return searchCarousels;
+}
 
   Future<List<Map<String, dynamic>>> _loadProfileCarousels(
     List<ActualUniveristy> allUnivs,
@@ -264,11 +263,13 @@ class _HomePageState extends State<HomePage> {
 
     List<Future<List<Map<String, dynamic>>>> futures = [
       _loadProfileCarousels(allUnivs),
+      _loadFavoritesCarousels(allUnivs),
+      _loadSearchHistoryCarousels(allUnivs) 
     ];
 
     List<List<Map<String, dynamic>>> results = await Future.wait(futures);
 
-    List<Map<String, dynamic>> tempCarousels = [...results[0]];
+    List<Map<String, dynamic>> tempCarousels = [...results[0],...results[1],...results[2]];
 
     setState(() {
       carouselsData = tempCarousels;
@@ -307,20 +308,20 @@ class _HomePageState extends State<HomePage> {
     return score;
   }
 
-  Future<List<ActualUniveristy>> _getMostSimilarUniversities(
-    ActualUniveristy target,
-    List<ActualUniveristy> allUnivs,
-  ) async {
-    List<ActualUniveristy> others =
-        allUnivs.where((univ) => univ.name != target.name).toList();
-    others.sort(
-      (a, b) => _calculateSimilarity(
-        target,
-        b,
-      ).compareTo(_calculateSimilarity(target, a)),
-    );
-    return others.take(6).toList();
-  }
+  List<ActualUniveristy> _getMostSimilarUniversities(
+  ActualUniveristy target,
+  List<ActualUniveristy> allUnivs,
+) {
+  List<ActualUniveristy> others =
+      allUnivs.where((univ) => univ.name != target.name).toList();
+  others.sort(
+    (a, b) => _calculateSimilarity(
+      target,
+      b,
+    ).compareTo(_calculateSimilarity(target, a)),
+  );
+  return others.take(6).toList();
+}
 
   int _calculateFavoriteSimilarity(
     ActualUniveristy fav,
@@ -395,7 +396,7 @@ class _HomePageState extends State<HomePage> {
           final textSpan2 =    TextSpan(
                             text:
                                 type == 'search'
-                                    ? " (${university.name})"
+                                    ? " (${generateAbbreviation(university.name)})"
                                     : type == 'favorite'
                                     ? " (${university.name})"
                                     : type == 'profile_gpa'

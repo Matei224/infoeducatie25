@@ -2,10 +2,12 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:google_sign_in/google_sign_in.dart" show GoogleSignIn;
+import "package:rive/rive.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:studee_app/data/database.dart";
 import "package:studee_app/data/university.dart";
 import "package:studee_app/data/university/univeristy_full.dart";
+import "package:studee_app/widgets/animationWidget.dart";
 import "package:studee_app/widgets/model/universityWidget.dart";
 import "package:studee_app/widgets/filteringrow.dart";
 
@@ -52,6 +54,7 @@ class _SearchPageState extends State<SearchPage> {
         searchHistory.removeAt(0);
       } 
       await prefs.setStringList('searchHistory', searchHistory);
+      
     }
   }
 
@@ -115,6 +118,7 @@ class _SearchPageState extends State<SearchPage> {
     print(univs);
     return Expanded(
       child: Column(
+        
         children: [
           const SizedBox(height: 30),
           Padding(
