@@ -30,7 +30,7 @@ Librarii folosite :
   rive: ^0.13.20
   flutter_launcher_icons: ^0.14.4
 
-[https://app.gitbook.com/o/NSGs53rQIt4C4F2o3m1i/s/YZm2fMiNtuGm45EHTDtw/design-wise/figma](https://app.gitbook.com/o/NSGs53rQIt4C4F2o3m1i/sites/site_Tck1p/preview) - gitbook (librarii+figma+rive links)
+https://indoed.gitbook.io/untitled/ - gitbook (librarii+figma+rive links)
 ---
 description: >-
   Ideea proiectului vine atat din dorinta de a invata, cat si din lipsa altor
