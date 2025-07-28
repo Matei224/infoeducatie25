@@ -39,7 +39,6 @@ class _FilterRowState extends State<FilterRow> {
           items:
              countriesFilter!,
 
-          //FilterChipItem(label: "A very long option", value: "long_option")
         ),
         FilterChipDropdown(
           initialLabel: 'Budget',
@@ -51,7 +50,6 @@ class _FilterRowState extends State<FilterRow> {
                            budgetFilter,
 
 
-          //FilterChipItem(label: "A very long option", value: "long_option")
         ),
         FilterChipDropdown(
           initialLabel: 'Programme',

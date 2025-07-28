@@ -67,13 +67,13 @@ class _UniversityWidgetState extends State<UniversityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    double padding = widget.isCarouselItem ? 2.0 : 37.0; // Reduced padding for carousel
+    double padding = widget.isCarouselItem ? 2.0 : 37.0; 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: padding),
       child: Column(
         children: [
           SizedBox(
-            width: double.infinity, // Will be constrained by parent Container
+            width: double.infinity, 
             height: 150,
             child: GestureDetector(
               onTap: () => navigateToUniversityInfo(context, widget.data),
@@ -208,7 +208,7 @@ class _UniversityWidgetState extends State<UniversityWidget> {
               ),
             ),
           ),
-          if (!widget.isCarouselItem) const SizedBox(height: 25), // Omit in carousel
+          if (!widget.isCarouselItem) const SizedBox(height: 25), 
         ],
       ),
     );

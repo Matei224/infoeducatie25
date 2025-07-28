@@ -112,7 +112,7 @@ void _signInWithGoogle() async {
       return methods.isNotEmpty;
     } catch (e) {
       print('Error checking email: $e');
-      return null; // Indicates an error occurred
+      return null; 
     }
   }
 
@@ -216,7 +216,6 @@ void _signInWithGoogle() async {
     Size size = MediaQuery.of(context).size;
     double widthScreen = size.width;
 
-    //Sign up data
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

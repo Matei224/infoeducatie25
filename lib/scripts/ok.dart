@@ -3,18 +3,15 @@ import 'package:http/http.dart' as http;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:studee_app/data/database.dart';
 import 'dart:convert';
-import 'package:studee_app/data/university.dart'; // Adjust import path
-import 'package:studee_app/services/api_services.dart'; // Adjust import path
+import 'package:studee_app/data/university.dart'; 
+import 'package:studee_app/services/api_services.dart'; 
 
 void main() async {
-  // Initialize sqflite for desktop
   sqfliteFfiInit();
   final databaseFactory = databaseFactoryFfi;
 
-  // Open database in the project directory
   final db = await databaseFactory.openDatabase('universities.db');
 
-  // Create the universities table
   await db.execute('''
     CREATE TABLE universities (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,7 +32,6 @@ void main() async {
     )
   ''');
 
-  // Fetch university data
   final apiServices = ApiServices();
   final universities = await apiServices.getUniversities();
   if (universities != null && universities.isNotEmpty) {

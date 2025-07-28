@@ -60,7 +60,6 @@ setState(() {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // purple offset background
           Positioned(
             top: 8,
             left: 8,
@@ -74,7 +73,6 @@ setState(() {
             ),
           ),
 
-          // main white card
           Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
@@ -84,7 +82,6 @@ setState(() {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // top image
                 GestureDetector(
                   onTap:
                       () => navigateToUniversityInfo(context, widget.favorite),
@@ -103,7 +100,6 @@ setState(() {
                   ),
                 ),
 
-                // text + icon row
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -119,7 +115,6 @@ setState(() {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // title + subtitle
                           Text(
                             widget.favorite.name,
                             style: GoogleFonts.poppins(
@@ -156,10 +151,10 @@ setState(() {
                                       255,
                                       251,
                                       238,
-                                    ), // Orange background for text
+                                    ), 
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
-                                      color: Colors.black, // Orange border
+                                      color: Colors.black, 
                                       width: 1.5,
                                     ),
                                   ),
@@ -168,7 +163,7 @@ setState(() {
                                     child: Icon(
                                       Icons.bookmark_border,
                                       color: color,
-                                      size: 20,
+                                      size: size.width*0.04,
                                     ),
                                   ),
                                 ),
@@ -176,7 +171,6 @@ setState(() {
                             ),
                           ),
 
-                          // bookmark icon
                         ],
                       ),
                     ),

@@ -23,12 +23,10 @@ class _FormBirthdayState extends State<FormBirthday> {
       initialDate: DateTime.now(),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _dateController.text = pickedDate.toString().split(" ")[0];
-      });
+    setState(() {
+      _dateController.text = pickedDate.toString().split(" ")[0];
+    });
     }
-  }
 
   @override
   void dispose() {

@@ -127,7 +127,6 @@ class _FilterChipDropdownState extends State<FilterChipDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return TapRegion(
       onTapOutside: _handleOutsideTap,
       child: Column(

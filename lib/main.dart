@@ -76,7 +76,11 @@ class _MyAppState extends State<MyApp> {
                 if (user.emailVerified) {
                   setState(() {});
                 }
-              }, onVerified: () {  },
+              }, onVerified: () { 
+                setState(() {
+                  
+                });
+              },
             );
           }
           return StreamBuilder<DocumentSnapshot>(

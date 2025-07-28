@@ -12,7 +12,6 @@ import 'package:studee_app/data/university.dart';
 import 'package:studee_app/data/university/univeristy_full.dart';
 import 'dart:async';
 
-// Custom widget to handle dynamic tab text styling
 class SelectedText extends StatelessWidget {
   final String text;
   final int index;
@@ -57,10 +56,10 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Ti
   late TabController tabController;
   Timer? animationTimer;
   final List<Color> tabColors = [
-    Color.fromARGB(255, 115, 0, 255), // Academic
-    Color.fromARGB(255, 200, 255, 0),  // Costs
-    Color.fromARGB(255, 255, 81, 0),   // Admission
-    Color.fromARGB(255, 255, 132, 177), // Campus
+    Color.fromARGB(255, 115, 0, 255), 
+    Color.fromARGB(255, 200, 255, 0),  
+    Color.fromARGB(255, 255, 81, 0),   
+    Color.fromARGB(255, 255, 132, 177), 
   ];
 
   Color currentIndicatorColor = Color.fromARGB(255, 115, 0, 255);
@@ -74,11 +73,18 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Ti
   }
 
   void _handleTabChange() {
-    if (tabController.index == 0 || tabController.index == 1) {
-      currentAnimationFile = 'assets/animations/studee_toki.riv';} else {
-      currentAnimationFile = 'assets/animations/studee_juno.riv';
-    }
-    
+    if (tabController.index == 0){
+      currentAnimationFile = 'assets/animations/studee_nova.riv';
+  } else if (tabController.index == 1) {
+          currentAnimationFile = 'assets/animations/studee_toki.riv';
+
+  }  else if (tabController.index == 2) {
+          currentAnimationFile = 'assets/animations/studee_juno.riv';
+
+  } else {
+              currentAnimationFile = 'assets/animations/studee_raya.riv';
+
+  }
 
     setState(() {
       showAnimation = true;
@@ -152,7 +158,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Ti
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(25),
+                padding: EdgeInsets.symmetric(horizontal: 25,vertical: size.height*0.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -170,7 +176,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Ti
                             ? ClipRRect(
                                 borderRadius: const BorderRadius.all(Radius.circular(15)),
                                 child: Container(
-                                  height: 230,
+                                  height: size.width*0.5,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
@@ -185,7 +191,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Ti
                                 child: Image.asset(
                                   'assets/images/nophoto.jpg',
                                   fit: BoxFit.cover,
-                                  height: 230,
+                                  height: size.width*0.5,
                                   width: double.infinity,
                                 ),
                               ),
@@ -297,7 +303,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Ti
                           unselectedLabelColor: Colors.grey,
                         ),
                         SizedBox(
-                          height: size.width * 0.8,
+                          height: size.width * 0.9,
                           child: TabBarView(
                             controller: tabController,
                             children: [
@@ -330,3 +336,6 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Ti
     );
   }
 }
+
+
+

@@ -115,6 +115,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     print(univs);
     return Expanded(
       child: Column(
@@ -179,7 +180,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
           
  Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            padding: EdgeInsets.symmetric(horizontal: size.width*0.1),
             child: FilterRow(
               filter: filters,
               onSelectDegree: onSelectDegree,

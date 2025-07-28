@@ -7,7 +7,6 @@ import 'dart:async';
 
 import 'package:studee_app/services/api_services.dart';
 
-// API key for OpenRouter
 final apiKey =
     'not';
 Future<String> getOpenRouterResponse(String userInput) async {
@@ -39,7 +38,6 @@ Future<String> getOpenRouterResponse(String userInput) async {
   }
 }
 
-// Questionnaire template
 const String questionnaire = '''
 **Academics category**
 -Graduation rate:
@@ -94,13 +92,10 @@ const String questionnaire = '''
 -Link to numbeo website for that city of university with safety:
 ''';
 
-// Fetch response from OpenRouter API
 
-// Main function to update the database
 void main() async {
   final databaseFactory = databaseFactoryFfi;
 
-  // Open the database
   final db = await databaseFactory.openDatabase('final_europe_universities.db');
   final newColumns = [
     'graduationRate',
@@ -233,7 +228,6 @@ void main() async {
       };
       print(updateValues);
 
-      // Update the database
       await db.update(
         'universities',
         updateValues,
@@ -246,11 +240,9 @@ void main() async {
       print('Error updating ${university['name']}: $e');
     }
 
-    // Delay to respect API rate limits
     await Future.delayed(Duration(seconds: 5));
   }
 
-  // Close the database
   await db.close();
   print('Database update completed.');
 }
