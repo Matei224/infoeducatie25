@@ -1,3 +1,4 @@
+Folosit Grok AI pentru rezolvare erori de grade, CMAKE. Generate formulare reutilizabile, clase cu date mari repetitive.
 Librarii folosite : 
   cupertino_icons: ^1.0.8
   firebase_core: ^3.13.0
